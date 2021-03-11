@@ -1,0 +1,60 @@
+Serveur CCTRB :
+
+-------------------------
+
+Base de données :
+
+voir fichier cctrb.sql
+
+=> journal
+- ID etablissement
+- ID client
+- Date/Heure arrivée
+- Date/Heure sortie
+- Cas contact O/N
+
+=> etablissement
+- ID etablissement
+- raison sociale
+- type etablissement
+
+=> type etablissement
+- ID type etablissement
+- libelle
+
+=> declarations
+- ID client
+- Date/Heure déclaration COVID+
+
+=> clients
+- ID client
+
+Base de données MySQL utilisée par défaut :
+- serveur : localhost
+- nom de la base : cctrb
+- utilisateur : root
+- mot de passe : n/a
+
+-------------------------
+
+API du serveur :
+
+- inscription établissement : lors de l'inscription d'un établissement dnas la base de données (lancement de EtabCCTRB)
+- modification établissement : modification de la fiche d'un établissement
+- test cas contact établissement : effectué par l'application établissement sur demande de l'utilisateur
+
+- inscription client : lors de la première utilisation de l'application cliente (lancement du logiciel ou première entrée dans un établissement)
+- entrée dans un établissement : effectuée par un client par lecture du QR code de l'établissement (à son arrivée)
+- sortie d'un établissement : effectuée lors de l'entrée dans l'établissement suivant ou par lecture du QR Code d'un établissement lue en entrée
+- déclaration COVID+ : effectuée par un client depuis son application mobile
+- test cas contact client : effectué par l'application cliente sur demande de l'utilisateur
+
+- liste des types d'établissement : demandée par le logiciel établissement pour l'inscription et la modification d'une fiche d'établissement
+http://localhost:8080/types
+
+-------------------------
+
+Fonctionnalités :
+
+- gérer la base de données et l'API
+- faire du ménage dans la base de données pour n'archiver que 2 semaines de données (donc J à J-14)
