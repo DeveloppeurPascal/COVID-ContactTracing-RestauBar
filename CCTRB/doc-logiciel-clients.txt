@@ -1,0 +1,22 @@
+CCTRB :
+
+-------------------------
+
+Base de données :
+
+rien
+
+-------------------------
+
+Paramétrage :
+
+- ID client => fourni par l'API serveur lors de l'inscription ou de la première entrée dans un établissement
+
+-------------------------
+
+Fonctionnalités :
+
+- entrée dans un établissement
+- sortie d'un établissement
+- déclaration COVID+
+- test pour savoir si on est cas contact
