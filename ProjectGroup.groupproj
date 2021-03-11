@@ -1,0 +1,60 @@
+﻿<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+    <PropertyGroup>
+        <ProjectGuid>{4DB63989-5B00-47BA-8DCC-6179E235A383}</ProjectGuid>
+    </PropertyGroup>
+    <ItemGroup>
+        <Projects Include="CCTRB\CCTRB.dproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="ServeurCCTRB\ServeurCCTRB.dproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="EtabCCTRB\EtabCCTRB.dproj">
+            <Dependencies/>
+        </Projects>
+    </ItemGroup>
+    <ProjectExtensions>
+        <Borland.Personality>Default.Personality.12</Borland.Personality>
+        <Borland.ProjectType/>
+        <BorlandProject>
+            <Default.Personality/>
+        </BorlandProject>
+    </ProjectExtensions>
+    <Target Name="CCTRB">
+        <MSBuild Projects="CCTRB\CCTRB.dproj"/>
+    </Target>
+    <Target Name="CCTRB:Clean">
+        <MSBuild Projects="CCTRB\CCTRB.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="CCTRB:Make">
+        <MSBuild Projects="CCTRB\CCTRB.dproj" Targets="Make"/>
+    </Target>
+    <Target Name="ServeurCCTRB">
+        <MSBuild Projects="ServeurCCTRB\ServeurCCTRB.dproj"/>
+    </Target>
+    <Target Name="ServeurCCTRB:Clean">
+        <MSBuild Projects="ServeurCCTRB\ServeurCCTRB.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="ServeurCCTRB:Make">
+        <MSBuild Projects="ServeurCCTRB\ServeurCCTRB.dproj" Targets="Make"/>
+    </Target>
+    <Target Name="EtabCCTRB">
+        <MSBuild Projects="EtabCCTRB\EtabCCTRB.dproj"/>
+    </Target>
+    <Target Name="EtabCCTRB:Clean">
+        <MSBuild Projects="EtabCCTRB\EtabCCTRB.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="EtabCCTRB:Make">
+        <MSBuild Projects="EtabCCTRB\EtabCCTRB.dproj" Targets="Make"/>
+    </Target>
+    <Target Name="Build">
+        <CallTarget Targets="CCTRB;ServeurCCTRB;EtabCCTRB"/>
+    </Target>
+    <Target Name="Clean">
+        <CallTarget Targets="CCTRB:Clean;ServeurCCTRB:Clean;EtabCCTRB:Clean"/>
+    </Target>
+    <Target Name="Make">
+        <CallTarget Targets="CCTRB:Make;ServeurCCTRB:Make;EtabCCTRB:Make"/>
+    </Target>
+    <Import Project="$(BDS)\Bin\CodeGear.Group.Targets" Condition="Exists('$(BDS)\Bin\CodeGear.Group.Targets')"/>
+</Project>
