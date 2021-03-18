@@ -12,6 +12,12 @@ object WebModule1: TWebModule1
       Name = 'ListeTypesEtablissements'
       PathInfo = '/types'
       OnAction = WebModule1ListeTypesEtablissementsAction
+    end
+    item
+      MethodType = mtPost
+      Name = 'InscriptionEtablissement'
+      PathInfo = '/etbadd'
+      OnAction = WebModule1InscriptionEtablissementAction
     end>
   Height = 230
   Width = 415

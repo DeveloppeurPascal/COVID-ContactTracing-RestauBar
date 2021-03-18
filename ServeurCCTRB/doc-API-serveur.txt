@@ -39,7 +39,6 @@ Base de données MySQL utilisée par défaut :
 
 API du serveur :
 
-- inscription établissement : lors de l'inscription d'un établissement dnas la base de données (lancement de EtabCCTRB)
 - modification établissement : modification de la fiche d'un établissement
 - test cas contact établissement : effectué par l'application établissement sur demande de l'utilisateur
 
@@ -51,7 +50,20 @@ API du serveur :
 
 - liste des types d'établissement : demandée par le logiciel établissement pour l'inscription et la modification d'une fiche d'établissement
 http://localhost:8080/types
+GET
+OUT :
+	JSON tableau d'objets (id,label)
 
+- inscription établissement : lors de l'inscription d'un établissement dnas la base de données (lancement de EtabCCTRB)
+http://localhost:8080/etbadd
+POST
+IN :
+	l => raison sociale
+	t => ID du type établissement
+OUT :
+	JSON objets (id)
+
+	
 -------------------------
 
 Fonctionnalités :
