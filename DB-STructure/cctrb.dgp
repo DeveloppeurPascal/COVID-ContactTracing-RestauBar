@@ -284,7 +284,7 @@ object AppMetaData: TAppMetaData
           GeneratedByRelationship = False
         end
         item
-          FieldName = 'libellle'
+          FieldName = 'libelle'
           DataTypeName = 'VarChar'
           Size = 255
           Size2 = 0
