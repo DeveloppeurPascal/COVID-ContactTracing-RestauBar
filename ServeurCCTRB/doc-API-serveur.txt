@@ -6,7 +6,7 @@ Base de données :
 
 voir fichier cctrb.sql
 
-=> journal
+=> historiques (journal des entrées/sorties)
 - ID etablissement
 - ID client
 - Date/Heure arrivée
@@ -39,8 +39,6 @@ Base de données MySQL utilisée par défaut :
 
 API du serveur :
 
-- test cas contact établissement : effectué par l'application établissement sur demande de l'utilisateur
-
 - inscription client : lors de la première utilisation de l'application cliente (lancement du logiciel ou première entrée dans un établissement)
 - entrée dans un établissement : effectuée par un client par lecture du QR code de l'établissement (à son arrivée)
 - sortie d'un établissement : effectuée lors de l'entrée dans l'établissement suivant ou par lecture du QR Code d'un établissement lue en entrée
@@ -72,6 +70,14 @@ IN :
 OUT :
 	n/a
 	
+- test cas contact établissement : effectué par l'application établissement sur demande de l'utilisateur
+http://localhost:8080/etbcascontact
+POST
+IN :
+	i => ID établissement
+OUT :
+	JSON tableau d'objets (StartDate, EndDate)
+
 -------------------------
 
 Fonctionnalités :

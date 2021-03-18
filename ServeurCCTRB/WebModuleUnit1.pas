@@ -21,6 +21,8 @@ type
       Request: TWebRequest; Response: TWebResponse; var Handled: Boolean);
     procedure WebModule1ModificationEtablissementAction(Sender: TObject;
       Request: TWebRequest; Response: TWebResponse; var Handled: Boolean);
+    procedure WebModule1TestCasContactEtablissementAction(Sender: TObject;
+      Request: TWebRequest; Response: TWebResponse; var Handled: Boolean);
   private
     FDBConnexion: TFDConnection;
     function GetFDBConnexion: TFDConnection;
@@ -253,6 +255,61 @@ begin
       Response.StatusCode := 400;
       Response.Content := 'SQL update KO';
       exit;
+    end;
+  except
+    Response.StatusCode := 404;
+    Response.Content := '';
+  end;
+end;
+
+procedure TWebModule1.WebModule1TestCasContactEtablissementAction
+  (Sender: TObject; Request: TWebRequest; Response: TWebResponse;
+  var Handled: Boolean);
+var
+  idetb: integer;
+  qry: tfdquery;
+  jsa: tjsonarray;
+  // TODO : sécuriser l'appel avec un code unique temporaire
+begin
+  // http://localhost:8080/etbcascontact (GET avec i=idetb)
+  // récupération et test de l'existence de l'ID d'établissement
+  try
+    idetb := Request.QueryFields.Values['i'].ToInteger;
+  except
+    idetb := -1;
+  end;
+  if not((idetb > 0) and (idetb = DBConnexion.ExecSQLScalar
+    ('select IDEtablissement from etablissements where IDEtablissement=:id',
+    [idetb]))) then
+  begin
+    Response.StatusCode := 400;
+    Response.Content := 'unknown etb';
+    exit;
+  end;
+  // traitement de la demande puisque tout est ok
+  try
+    jsa := tjsonarray.Create;
+    try
+      qry := tfdquery.Create(self);
+      try
+        qry.Connection := DBConnexion;
+        qry.Open('select DateHeureEntree,DateHeureSortie from historiques where IDEtablissement=:id and CasContact=1',
+          [idetb]);
+        while not qry.Eof do
+        begin
+          jsa.Add(tjsonobject.Create.AddPair('StartDate',
+            qry.fieldbyname('DateHeureEntree').asstring).AddPair('EndDate',
+            qry.fieldbyname('DateHeureSortie').asstring));
+          qry.next;
+        end;
+      finally
+        qry.free;
+      end;
+      Response.StatusCode := 200;
+      Response.ContentType := 'application/json';
+      Response.Content := jsa.ToJSON;
+    finally
+      jsa.free;
     end;
   except
     Response.StatusCode := 404;

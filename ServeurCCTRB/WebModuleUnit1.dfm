@@ -24,6 +24,12 @@ object WebModule1: TWebModule1
       Name = 'ModificationEtablissement'
       PathInfo = '/etbchg'
       OnAction = WebModule1ModificationEtablissementAction
+    end
+    item
+      MethodType = mtGet
+      Name = 'TestCasContactEtablissement'
+      PathInfo = '/etbcascontact'
+      OnAction = WebModule1TestCasContactEtablissementAction
     end>
   Height = 230
   Width = 415
