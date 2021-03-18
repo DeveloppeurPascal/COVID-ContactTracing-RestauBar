@@ -19,6 +19,8 @@ type
       Request: TWebRequest; Response: TWebResponse; var Handled: Boolean);
     procedure WebModule1InscriptionEtablissementAction(Sender: TObject;
       Request: TWebRequest; Response: TWebResponse; var Handled: Boolean);
+    procedure WebModule1ModificationEtablissementAction(Sender: TObject;
+      Request: TWebRequest; Response: TWebResponse; var Handled: Boolean);
   private
     FDBConnexion: TFDConnection;
     function GetFDBConnexion: TFDConnection;
@@ -84,7 +86,7 @@ var
   raisonsociale: string;
   idtypetablissement: integer;
   idetb: integer;
-begin
+begin // TODO : sécuriser l'API en retournant une clé en plus de l'ID d'établissement
   // http://localhost:8080/etbadd (POST avec l=raisonsociale et t=idetablissement)
   // récupération et test de l'existence de la raison sociale de l'établissement
   try
@@ -179,6 +181,78 @@ begin
       end;
     finally
       qry.free;
+    end;
+  except
+    Response.StatusCode := 404;
+    Response.Content := '';
+  end;
+end;
+
+procedure TWebModule1.WebModule1ModificationEtablissementAction(Sender: TObject;
+  Request: TWebRequest; Response: TWebResponse; var Handled: Boolean);
+var
+  idetb: integer;
+  raisonsociale: string;
+  idtypetablissement: integer;
+  // TODO : sécuriser l'appel avec un code unique temporaire
+begin
+  // http://localhost:8080/etbchg (POST avec i=idetb l=raisonsociale et t=idetablissement)
+  // récupération et test de l'existence de l'ID d'établissement
+  try
+    idetb := Request.ContentFields.Values['i'].ToInteger;
+  except
+    idetb := -1;
+  end;
+  if not((idetb > 0) and (idetb = DBConnexion.ExecSQLScalar
+    ('select IDEtablissement from etablissements where IDEtablissement=:id',
+    [idetb]))) then
+  begin
+    Response.StatusCode := 400;
+    Response.Content := 'unknown etb';
+    exit;
+  end;
+  // récupération et test de l'existence de la raison sociale de l'établissement
+  try
+    raisonsociale := Request.ContentFields.Values['l'];
+  except
+    raisonsociale := '';
+  end;
+  if raisonsociale.IsEmpty then
+  begin
+    Response.StatusCode := 400;
+    Response.Content := 'missing label parameter';
+    exit;
+  end;
+  // récupération et test de l'existence de l'ID du type d'établissement
+  try
+    idtypetablissement := Request.ContentFields.Values['t'].ToInteger;
+  except
+    idtypetablissement := -1;
+  end;
+  if not((idtypetablissement > 0) and
+    (idtypetablissement = DBConnexion.ExecSQLScalar
+    ('select IDTypeEtablissement from typesetablissements where IDTypeEtablissement=:id',
+    [idtypetablissement]))) then
+  begin
+    Response.StatusCode := 400;
+    Response.Content := 'unknown etb type';
+    exit;
+  end;
+  // traitement de la demande puisque tout est ok
+  try
+    if (0 < DBConnexion.ExecSQL
+      ('update etablissements set RaisonSociale=:rs, IDTypeEtablissement=:idte where IDEtablissement=:id',
+      [raisonsociale, idtypetablissement, idetb])) then
+    begin
+      Response.StatusCode := 200;
+      Response.ContentType := 'application/json';
+      Response.Content := '';
+    end
+    else
+    begin
+      Response.StatusCode := 400;
+      Response.Content := 'SQL update KO';
+      exit;
     end;
   except
     Response.StatusCode := 404;

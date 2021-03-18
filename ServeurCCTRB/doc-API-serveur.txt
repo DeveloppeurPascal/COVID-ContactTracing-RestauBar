@@ -39,7 +39,6 @@ Base de données MySQL utilisée par défaut :
 
 API du serveur :
 
-- modification établissement : modification de la fiche d'un établissement
 - test cas contact établissement : effectué par l'application établissement sur demande de l'utilisateur
 
 - inscription client : lors de la première utilisation de l'application cliente (lancement du logiciel ou première entrée dans un établissement)
@@ -63,6 +62,15 @@ IN :
 OUT :
 	JSON objets (id)
 
+- modification établissement : modification de la fiche d'un établissement
+http://localhost:8080/etbchg
+POST
+IN :
+	i => ID établissement
+	l => raison sociale
+	t => ID du type établissement
+OUT :
+	n/a
 	
 -------------------------
 

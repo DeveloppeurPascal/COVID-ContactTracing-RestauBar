@@ -18,6 +18,12 @@ object WebModule1: TWebModule1
       Name = 'InscriptionEtablissement'
       PathInfo = '/etbadd'
       OnAction = WebModule1InscriptionEtablissementAction
+    end
+    item
+      MethodType = mtPost
+      Name = 'ModificationEtablissement'
+      PathInfo = '/etbchg'
+      OnAction = WebModule1ModificationEtablissementAction
     end>
   Height = 230
   Width = 415
