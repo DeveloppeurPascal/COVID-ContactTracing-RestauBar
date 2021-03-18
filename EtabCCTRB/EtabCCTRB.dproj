@@ -287,6 +287,14 @@
             <Form>frmPrincipale</Form>
             <FormType>fmx</FormType>
         </DCCReference>
+        <DCCReference Include="uAPI_etb.pas"/>
+        <DCCReference Include="uAPI_typesetb.pas"/>
+        <DCCReference Include="uAPI.pas"/>
+        <DCCReference Include="uDM.pas">
+            <Form>dm</Form>
+            <FormType>dfm</FormType>
+            <DesignClass>TDataModule</DesignClass>
+        </DCCReference>
         <BuildConfiguration Include="Release">
             <Key>Cfg_2</Key>
             <CfgParent>Base</CfgParent>

@@ -3,12 +3,17 @@ program EtabCCTRB;
 uses
   System.StartUpCopy,
   FMX.Forms,
-  fPrincipale in 'fPrincipale.pas' {frmPrincipale};
+  fPrincipale in 'fPrincipale.pas' {frmPrincipale},
+  uAPI_etb in 'uAPI_etb.pas',
+  uAPI_typesetb in 'uAPI_typesetb.pas',
+  uAPI in 'uAPI.pas',
+  uDM in 'uDM.pas' {dm: TDataModule};
 
 {$R *.res}
 
 begin
   Application.Initialize;
   Application.CreateForm(TfrmPrincipale, frmPrincipale);
+  Application.CreateForm(Tdm, dm);
   Application.Run;
 end.
