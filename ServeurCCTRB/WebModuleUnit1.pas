@@ -293,7 +293,7 @@ begin
       qry := tfdquery.Create(self);
       try
         qry.Connection := DBConnexion;
-        qry.Open('select DateHeureEntree,DateHeureSortie from historiques where IDEtablissement=:id and CasContact=1',
+        qry.Open('select DateHeureEntree,DateHeureSortie from historiques where IDEtablissement=:id and CasContact=1 order by DateHeureEntree,DateHeureSortie',
           [idetb]);
         while not qry.Eof do
         begin
