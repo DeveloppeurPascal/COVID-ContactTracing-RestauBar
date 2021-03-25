@@ -8,3 +8,5 @@ TODO :
 
 Dependance :
 https://github.com/DeveloppeurPascal/librairies stocké dans ../librairies
+
+Plus d'informations sur https://developpeur-pascal.fr/p/_300f-cctrb--covid-contact-tracing-restau-bar.html
