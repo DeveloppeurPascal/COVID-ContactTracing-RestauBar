@@ -7,13 +7,15 @@ uses
   uAPI_etb in 'uAPI_etb.pas',
   uAPI_typesetb in 'uAPI_typesetb.pas',
   uAPI in 'uAPI.pas',
-  uDM in 'uDM.pas' {dm: TDataModule};
+  uDM in 'uDM.pas' {dm: TDataModule},
+  uParam in '..\..\Librairies\uParam.pas',
+  uConfig in 'uConfig.pas';
 
 {$R *.res}
 
 begin
   Application.Initialize;
-  Application.CreateForm(TfrmPrincipale, frmPrincipale);
   Application.CreateForm(Tdm, dm);
+  Application.CreateForm(TfrmPrincipale, frmPrincipale);
   Application.Run;
 end.

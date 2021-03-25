@@ -1,18 +1,7 @@
 ﻿[]
-Coordinates=153,70,82,33
+Coordinates=69,77,91,36
 Visible=True
 
 [dm.tabTypesEtablissements]
-Coordinates=0,0,153,33
-Visible=False
-
-[StringGrid1]
-Coordinates=172,1,70,51
-Visible=True
-
-[BindSourceDB1]
-Coordinates=0,0,135,69
-
-[BindingsList1]
-Coordinates=154,71,82,33
+Coordinates=349,20,176,36
 

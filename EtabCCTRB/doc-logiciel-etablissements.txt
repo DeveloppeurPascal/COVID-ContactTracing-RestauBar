@@ -24,3 +24,9 @@ Fonctionnalités :
 - savoir s'il y a eu des cas de COVID et donc des cas contacts, depuis quand
 
 - générer + afficher et/ou imprimer le QR Code de l'établissement
+
+-------------------------
+
+TODO 
+=> traiter la perte des paramètres ou le changement d'ordinateur
+=> faire en sorte que l'établissement ne puisse modifier que sa fiche

@@ -4,35 +4,124 @@ object frmPrincipale: TfrmPrincipale
   Caption = 'CCTRB - Etablissements'
   ClientHeight = 480
   ClientWidth = 640
+  Visible = True
   FormFactor.Width = 320
   FormFactor.Height = 480
   FormFactor.Devices = [Desktop]
+  OnCreate = FormCreate
   DesignerMasterStyle = 0
-  object StringGrid1: TStringGrid
-    CanFocus = True
-    ClipChildren = True
-    Position.X = 224.000000000000000000
-    Position.Y = 192.000000000000000000
+  object ecranUtilisationCourante: TLayout
+    Align = Client
+    Size.Width = 640.000000000000000000
+    Size.Height = 480.000000000000000000
+    Size.PlatformDefault = False
     TabOrder = 1
-    Viewport.Width = 196.000000000000000000
-    Viewport.Height = 75.000000000000000000
+    object Label1: TLabel
+      Position.X = 264.000000000000000000
+      Position.Y = 232.000000000000000000
+      Text = 'Label1'
+      TabOrder = 0
+    end
   end
-  object BindSourceDB1: TBindSourceDB
-    DataSet = dm.tabTypesEtablissements
-    ScopeMappings = <>
-    Left = 304
-    Top = 224
-  end
-  object BindingsList1: TBindingsList
-    Methods = <>
-    OutputConverters = <>
-    Left = 20
-    Top = 5
-    object LinkGridToDataSourceBindSourceDB1: TLinkGridToDataSource
-      Category = 'Liaisons rapides'
-      DataSource = BindSourceDB1
-      GridControl = StringGrid1
-      Columns = <>
+  object ecranInitialisation: TLayout
+    Align = Client
+    Size.Width = 640.000000000000000000
+    Size.Height = 480.000000000000000000
+    Size.PlatformDefault = False
+    TabOrder = 0
+    object lblRaisonSociale: TLabel
+      Align = Top
+      Margins.Left = 10.000000000000000000
+      Margins.Top = 10.000000000000000000
+      Margins.Right = 10.000000000000000000
+      Margins.Bottom = 10.000000000000000000
+      Position.X = 10.000000000000000000
+      Position.Y = 10.000000000000000000
+      Size.Width = 620.000000000000000000
+      Size.Height = 44.000000000000000000
+      Size.PlatformDefault = False
+      Text = 'Raison sociale'
+      TabOrder = 1
+      object edtRaisonSociale: TEdit
+        Touch.InteractiveGestures = [LongTap, DoubleTap]
+        Align = Right
+        TabOrder = 4
+        Position.X = 120.000000000000000000
+        Size.Width = 500.000000000000000000
+        Size.Height = 44.000000000000000000
+        Size.PlatformDefault = False
+        TextPrompt = 'Nom de votre '#233'tablissement'
+      end
+    end
+    object lblTypeEtablissement: TLabel
+      Align = Top
+      Margins.Left = 10.000000000000000000
+      Margins.Top = 10.000000000000000000
+      Margins.Right = 10.000000000000000000
+      Margins.Bottom = 10.000000000000000000
+      Position.X = 10.000000000000000000
+      Position.Y = 74.000000000000000000
+      Size.Width = 620.000000000000000000
+      Size.Height = 44.000000000000000000
+      Size.PlatformDefault = False
+      Text = 'Type'
+      TabOrder = 2
+      object cbTypeEtablissement: TComboBox
+        Align = Right
+        Position.X = 120.000000000000000000
+        Size.Width = 500.000000000000000000
+        Size.Height = 44.000000000000000000
+        Size.PlatformDefault = False
+        TabOrder = 4
+        object cbTypeEtablissementAnimation: TAniIndicator
+          Align = Client
+          Enabled = True
+          Size.Width = 500.000000000000000000
+          Size.Height = 44.000000000000000000
+          Size.PlatformDefault = False
+        end
+      end
+    end
+    object Layout2: TLayout
+      Align = Top
+      Margins.Left = 10.000000000000000000
+      Margins.Top = 10.000000000000000000
+      Margins.Right = 10.000000000000000000
+      Margins.Bottom = 10.000000000000000000
+      Position.X = 10.000000000000000000
+      Position.Y = 138.000000000000000000
+      Size.Width = 620.000000000000000000
+      Size.Height = 64.000000000000000000
+      Size.PlatformDefault = False
+      TabOrder = 3
+      object btnAnnuleCreation: TButton
+        Align = Right
+        Margins.Left = 10.000000000000000000
+        Margins.Top = 10.000000000000000000
+        Margins.Bottom = 10.000000000000000000
+        Position.X = 540.000000000000000000
+        Position.Y = 10.000000000000000000
+        Size.Width = 80.000000000000000000
+        Size.Height = 44.000000000000000000
+        Size.PlatformDefault = False
+        TabOrder = 0
+        Text = 'Annuler'
+        OnClick = btnAnnuleCreationClick
+      end
+      object btnCreerEtablissemen: TButton
+        Align = Right
+        Margins.Left = 10.000000000000000000
+        Margins.Top = 10.000000000000000000
+        Margins.Bottom = 10.000000000000000000
+        Position.X = 450.000000000000000000
+        Position.Y = 10.000000000000000000
+        Size.Width = 80.000000000000000000
+        Size.Height = 44.000000000000000000
+        Size.PlatformDefault = False
+        TabOrder = 1
+        Text = 'Enregistrer'
+        OnClick = btnCreerEtablissemenClick
+      end
     end
   end
 end

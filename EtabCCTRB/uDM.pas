@@ -15,6 +15,7 @@ type
     { Déclarations privées }
   public
     { Déclarations publiques }
+    ChargementTypesEtablissementsTermine: boolean;
   end;
 
 var
@@ -30,11 +31,13 @@ uses
 
 procedure Tdm.DataModuleCreate(Sender: TObject);
 begin
+  ChargementTypesEtablissementsTermine := false;
   API_ListeTypeEtablissementsAsync(
     procedure(tab: TFDMemTable)
     begin
       tabTypesEtablissements.CopyDataSet(tab, [coStructure, coRestart,
         coAppend]);
+      ChargementTypesEtablissementsTermine := true;
     end);
 end;
 

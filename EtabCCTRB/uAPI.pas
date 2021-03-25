@@ -15,6 +15,7 @@ begin
   result := 'http://localhost:8080/';
 {$ELSE}
   result := 'https://api.cctrb.fr/';
+  // TODO : gérer éventuellement la version de l'API
 {$ENDIF}
 end;
 

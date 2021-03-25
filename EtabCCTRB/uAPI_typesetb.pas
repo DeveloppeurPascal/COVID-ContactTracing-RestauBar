@@ -18,7 +18,7 @@ type
 function API_ListeTypeEtablissements: TFDMemtable;
 
 /// <summary>
-/// API "types" - Passe la liste des types d'établissements à la fonction de callback
+/// API "types" - Passe la liste des types d'établissements à la fonction de callback en asynchrone
 /// </summary>
 procedure API_ListeTypeEtablissementsAsync
   (Callback: TListeTypesEtbProc); overload;
@@ -46,39 +46,43 @@ begin
   result.open;
   serveur := thttpclient.Create;
   try
-    reponse := serveur.get(getAPIURL + 'types');
-    if (reponse.StatusCode = 200) then
-    begin
-      try
-        jsa := tjsonobject.ParseJSONValue(reponse.ContentAsString)
-          as tjsonarray;
-      except
-        jsa := tjsonarray.Create;
-      end;
-      if assigned(jsa) then
+    try
+      reponse := serveur.get(getAPIURL + 'types');
+      if (reponse.StatusCode = 200) then
       begin
-        for jsv in jsa do
-          try
-            jso := jsv as tjsonobject;
+        try
+          jsa := tjsonobject.ParseJSONValue(reponse.ContentAsString)
+            as tjsonarray;
+        except
+          jsa := tjsonarray.Create;
+        end;
+        if assigned(jsa) then
+        begin
+          for jsv in jsa do
             try
-              id := (jso.GetValue('id') as tjsonnumber).AsInt;
+              jso := jsv as tjsonobject;
               try
-                libelle := (jso.GetValue('label') as TJSONString).Value;
-                result.Insert;
-                result.FieldByName('id').AsInteger := id;
-                result.FieldByName('label').Asstring := libelle;
-                result.post;
+                id := (jso.GetValue('id') as tjsonnumber).AsInt;
+                try
+                  libelle := (jso.GetValue('label') as TJSONString).Value;
+                  result.Insert;
+                  result.FieldByName('id').AsInteger := id;
+                  result.FieldByName('label').Asstring := libelle;
+                  result.post;
+                except
+
+                end;
               except
 
               end;
             except
 
             end;
-          except
-
-          end;
-        jsa.free;
+          jsa.free;
+        end;
       end;
+    except
+
     end;
   finally
     serveur.free;
@@ -92,15 +96,18 @@ begin
     var
       tab: TFDMemtable;
     begin
-      tab := API_ListeTypeEtablissements;
-      if assigned(tab) then
-        tthread.Queue(nil,
-          procedure
-          begin
-            if assigned(Callback) then
-              Callback(tab);
-            tab.free;
-          end);
+      if assigned(Callback) then
+      begin
+        tab := API_ListeTypeEtablissements;
+        if assigned(tab) then
+          tthread.Queue(nil,
+            procedure
+            begin
+              if assigned(Callback) then
+                Callback(tab);
+              tab.free;
+            end);
+      end;
     end);
 end;
 
