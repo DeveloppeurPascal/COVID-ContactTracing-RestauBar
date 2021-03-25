@@ -8,18 +8,30 @@ uses FireDAC.Stan.Intf, FireDAC.Stan.Option,
   FireDAC.Stan.ExprFuncs, FireDAC.Phys.SQLiteWrapper.Stat,
   FireDAC.Phys.SQLiteDef, FireDAC.Phys, FireDAC.Phys.SQLite;
 
+type
+  TListeTypesEtbProc = reference to procedure(TabListeTypesEtb: TFDMemtable);
+  TListeTypesEtbEvent = procedure(TabListeTypesEtb: TFDMemtable) of object;
+
+  /// <summary>
+  /// API "types" - Retourne la liste des types d'établissements
+  /// </summary>
+function API_ListeTypeEtablissements: TFDMemtable;
+
 /// <summary>
-/// API "types" - Retourne la liste des types d'établissements
+/// API "types" - Passe la liste des types d'établissements à la fonction de callback
 /// </summary>
-function API_ListeTypeEtablissements: tfdmemtable;
+procedure API_ListeTypeEtablissementsAsync
+  (Callback: TListeTypesEtbProc); overload;
+procedure API_ListeTypeEtablissementsAsync
+  (Callback: TListeTypesEtbEvent); overload;
 
 implementation
 
 uses
-  system.net.HttpClient, uAPI, system.json;
+  system.net.HttpClient, uAPI, system.json, system.Threading, system.Classes;
 
-function API_ListeTypeEtablissements: tfdmemtable;
-var // TODO : passer en asynchrone
+function API_ListeTypeEtablissements: TFDMemtable;
+var
   serveur: thttpclient;
   reponse: ihttpresponse;
   jsa: tjsonarray;
@@ -28,7 +40,7 @@ var // TODO : passer en asynchrone
   id: integer;
   libelle: string;
 begin
-  result := tfdmemtable.Create(nil);
+  result := TFDMemtable.Create(nil);
   result.FieldDefs.Add('id', tfieldtype.ftInteger);
   result.FieldDefs.Add('label', tfieldtype.ftString, 100);
   result.open;
@@ -71,6 +83,35 @@ begin
   finally
     serveur.free;
   end;
+end;
+
+procedure API_ListeTypeEtablissementsAsync(Callback: TListeTypesEtbProc);
+begin
+  ttask.run(
+    procedure
+    var
+      tab: TFDMemtable;
+    begin
+      tab := API_ListeTypeEtablissements;
+      if assigned(tab) then
+        tthread.Queue(nil,
+          procedure
+          begin
+            if assigned(Callback) then
+              Callback(tab);
+            tab.free;
+          end);
+    end);
+end;
+
+procedure API_ListeTypeEtablissementsAsync(Callback: TListeTypesEtbEvent);
+begin
+  API_ListeTypeEtablissementsAsync(
+    procedure(tab: TFDMemtable)
+    begin
+      if assigned(Callback) then
+        Callback(tab);
+    end);
 end;
 
 end.

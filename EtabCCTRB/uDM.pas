@@ -30,19 +30,11 @@ uses
 
 procedure Tdm.DataModuleCreate(Sender: TObject);
 begin
-  ttask.run(
-    procedure
-    var
-      tab: TFDMemTable;
+  API_ListeTypeEtablissementsAsync(
+    procedure(tab: TFDMemTable)
     begin
-      tab := API_ListeTypeEtablissements;
-      if assigned(tab) then
-        tthread.Queue(nil,
-          procedure
-          begin
-            tabTypesEtablissements.CopyDataSet(tab,[coStructure, coRestart, coAppend]);
-            tab.free;
-          end);
+      tabTypesEtablissements.CopyDataSet(tab, [coStructure, coRestart,
+        coAppend]);
     end);
 end;
 
