@@ -32,6 +32,8 @@ type
     { Déclarations privées }
     procedure afficheEcranInitialisation;
     procedure afficheEcranUtilisation;
+    procedure RemplissageListeTypeEtablissements(cb: TComboBox;
+      cbAnim: TAniIndicator);
   public
     { Déclarations publiques }
   end;
@@ -49,12 +51,27 @@ procedure TfrmPrincipale.afficheEcranInitialisation;
 begin
   ecranInitialisation.Visible := true;
   ecranUtilisationCourante.Visible := false;
-  cbTypeEtablissement.items.Clear;
-  cbTypeEtablissement.ListItems
-    [cbTypeEtablissement.items.Add('-- en attente --')].tag := -1;
   edtRaisonSociale.Text := TConfig.RaisonSociale;
+  RemplissageListeTypeEtablissements(cbTypeEtablissement,
+    cbTypeEtablissementAnimation);
+end;
 
-  cbTypeEtablissementAnimation.Enabled := true;
+procedure TfrmPrincipale.afficheEcranUtilisation;
+begin
+  ecranInitialisation.Visible := false;
+  ecranUtilisationCourante.Visible := true;
+end;
+
+procedure TfrmPrincipale.RemplissageListeTypeEtablissements(cb: TComboBox;
+  cbAnim: TAniIndicator);
+begin
+  cb.items.Clear;
+  cb.ListItems
+    [cb.items.Add('-- en attente --')].tag := -1;
+  cb.ItemIndex := 0;
+  cbAnim.Enabled := true;
+  cbAnim.Visible := true;
+  cbAnim.BringToFront;
   ttask.run(
     procedure
     begin
@@ -70,37 +87,31 @@ begin
             var
               idx, idxitem: integer;
             begin
-              cbTypeEtablissement.beginupdate;
-              cbTypeEtablissement.items.Clear;
+              cb.beginupdate;
+              cb.items.Clear;
               dm.tabTypesEtablissements.first;
               idxitem := -1;
               while not dm.tabTypesEtablissements.eof do
               begin
-                idx := cbTypeEtablissement.items.Add
+                idx := cb.items.Add
                   (dm.tabTypesEtablissements.fieldbyname('label').asstring);
-                cbTypeEtablissement.ListItems[idx].tag :=
+                cb.ListItems[idx].tag :=
                   dm.tabTypesEtablissements.fieldbyname('id').asinteger;
-                if (TConfig.IDTypeEtablissement = cbTypeEtablissement.ListItems
+                if (TConfig.IDTypeEtablissement = cb.ListItems
                   [idx].tag) then
                   idxitem := idx;
                 dm.tabTypesEtablissements.next;
               end;
               if (idxitem < 0) then
-                cbTypeEtablissement.ItemIndex := 0
+                cb.ItemIndex := 0
               else
-                cbTypeEtablissement.ItemIndex := idxitem;
-              cbTypeEtablissement.endupdate;
-              cbTypeEtablissementAnimation.Enabled := false;
-              cbTypeEtablissementAnimation.Visible := false;
+                cb.ItemIndex := idxitem;
+              cb.endupdate;
+              cbAnim.Enabled := false;
+              cbAnim.Visible := false;
             end);
       end;
     end);
-end;
-
-procedure TfrmPrincipale.afficheEcranUtilisation;
-begin
-  ecranInitialisation.Visible := false;
-  ecranUtilisationCourante.Visible := true;
 end;
 
 procedure TfrmPrincipale.btnAnnuleCreationClick(Sender: TObject);
