@@ -1,5 +1,14 @@
 object AppMetaData: TAppMetaData
   VersionControlPath = '%projectdir%\versions'
+  UserOptions.Strings = (
+    'fmGenerateScript_Tables=1'
+    'fmGenerateScript_Indexes=1'
+    'fmGenerateScript_Triggers=1'
+    'fmGenerateScript_Relationships=1'
+    'fmGenerateScript_Domains=1'
+    'fmGenerateScript_Procedures=1'
+    'fmGenerateScript_Functions=1'
+    'fmGenerateScript_Views=1')
   VersionControl = <
     item
       VersionID = 1
