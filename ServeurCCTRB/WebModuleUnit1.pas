@@ -159,7 +159,7 @@ procedure TWebModule1.WebModule1ListeTypesEtablissementsAction(Sender: TObject;
 var
   qry: tfdquery;
   jsa: tjsonarray;
-begin
+begin // TODO : passer la langue en paramètre IN et sortir les textes dans la bonne langue
   // http://localhost:8080/types
   try
     qry := tfdquery.Create(self);
