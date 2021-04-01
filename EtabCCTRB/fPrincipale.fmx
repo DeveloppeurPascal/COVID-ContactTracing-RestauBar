@@ -1,8 +1,9 @@
 object frmPrincipale: TfrmPrincipale
   Left = 0
   Top = 0
+  BorderStyle = Single
   Caption = 'CCTRB - Etablissements'
-  ClientHeight = 480
+  ClientHeight = 322
   ClientWidth = 640
   Visible = True
   FormFactor.Width = 320
@@ -13,14 +14,81 @@ object frmPrincipale: TfrmPrincipale
   object ecranUtilisationCourante: TLayout
     Align = Client
     Size.Width = 640.000000000000000000
-    Size.Height = 480.000000000000000000
+    Size.Height = 322.000000000000000000
     Size.PlatformDefault = False
     TabOrder = 1
-    object Label1: TLabel
-      Position.X = 264.000000000000000000
-      Position.Y = 232.000000000000000000
-      Text = 'Label1'
+    object btnConsulter: TButton
+      Align = Top
+      Margins.Left = 10.000000000000000000
+      Margins.Top = 10.000000000000000000
+      Margins.Right = 10.000000000000000000
+      Margins.Bottom = 10.000000000000000000
+      Position.X = 10.000000000000000000
+      Position.Y = 10.000000000000000000
+      Size.Width = 620.000000000000000000
+      Size.Height = 44.000000000000000000
+      Size.PlatformDefault = False
       TabOrder = 0
+      Text = 'Voir ma fiche'
+      OnClick = btnConsulterClick
+    end
+    object btnModifier: TButton
+      Align = Top
+      Margins.Left = 10.000000000000000000
+      Margins.Top = 10.000000000000000000
+      Margins.Right = 10.000000000000000000
+      Margins.Bottom = 10.000000000000000000
+      Position.X = 10.000000000000000000
+      Position.Y = 74.000000000000000000
+      Size.Width = 620.000000000000000000
+      Size.Height = 44.000000000000000000
+      Size.PlatformDefault = False
+      TabOrder = 1
+      Text = 'Modifier ma fiche'
+    end
+    object btnTestCOVIDPositifs: TButton
+      Align = Top
+      Margins.Left = 10.000000000000000000
+      Margins.Top = 10.000000000000000000
+      Margins.Right = 10.000000000000000000
+      Margins.Bottom = 10.000000000000000000
+      Position.X = 10.000000000000000000
+      Position.Y = 138.000000000000000000
+      Size.Width = 620.000000000000000000
+      Size.Height = 44.000000000000000000
+      Size.PlatformDefault = False
+      TabOrder = 2
+      Text = 'Interroger les clients COVID+'
+    end
+    object btnGenererQRCode: TButton
+      Align = Top
+      Margins.Left = 10.000000000000000000
+      Margins.Top = 10.000000000000000000
+      Margins.Right = 10.000000000000000000
+      Margins.Bottom = 10.000000000000000000
+      Position.X = 10.000000000000000000
+      Position.Y = 202.000000000000000000
+      Size.Width = 620.000000000000000000
+      Size.Height = 44.000000000000000000
+      Size.PlatformDefault = False
+      TabOrder = 3
+      Text = 'G'#233'n'#233'rer QR Code'
+    end
+    object btnFermer: TButton
+      Align = Top
+      Cancel = True
+      Margins.Left = 10.000000000000000000
+      Margins.Top = 10.000000000000000000
+      Margins.Right = 10.000000000000000000
+      Margins.Bottom = 10.000000000000000000
+      Position.X = 10.000000000000000000
+      Position.Y = 266.000000000000000000
+      Size.Width = 620.000000000000000000
+      Size.Height = 44.000000000000000000
+      Size.PlatformDefault = False
+      TabOrder = 4
+      Text = 'Fermer'
+      OnClick = btnFermerClick
     end
   end
   object ecranInitialisation: TLayout
@@ -28,6 +96,7 @@ object frmPrincipale: TfrmPrincipale
     Size.Width = 640.000000000000000000
     Size.Height = 480.000000000000000000
     Size.PlatformDefault = False
+    Visible = False
     TabOrder = 0
     object lblRaisonSociale: TLabel
       Align = Top

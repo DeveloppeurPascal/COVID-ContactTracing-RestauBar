@@ -1,0 +1,127 @@
+object frmVisualiser: TfrmVisualiser
+  Left = 0
+  Top = 0
+  BorderStyle = Single
+  Caption = 'CCTRB - Ma fiche'
+  ClientHeight = 201
+  ClientWidth = 640
+  Position = MainFormCenter
+  FormFactor.Width = 320
+  FormFactor.Height = 480
+  FormFactor.Devices = [Desktop]
+  OnCreate = FormCreate
+  DesignerMasterStyle = 0
+  object btnFermer: TButton
+    Align = Top
+    Cancel = True
+    Default = True
+    Margins.Left = 10.000000000000000000
+    Margins.Top = 10.000000000000000000
+    Margins.Right = 10.000000000000000000
+    Margins.Bottom = 10.000000000000000000
+    Position.X = 10.000000000000000000
+    Position.Y = 145.000000000000000000
+    Size.Width = 620.000000000000000000
+    Size.Height = 44.000000000000000000
+    Size.PlatformDefault = False
+    TabOrder = 0
+    Text = 'Fermer'
+    OnClick = btnFermerClick
+  end
+  object Layout1: TLayout
+    Align = Top
+    Margins.Left = 10.000000000000000000
+    Margins.Top = 10.000000000000000000
+    Margins.Right = 10.000000000000000000
+    Margins.Bottom = 10.000000000000000000
+    Position.X = 10.000000000000000000
+    Position.Y = 100.000000000000000000
+    Size.Width = 620.000000000000000000
+    Size.Height = 25.000000000000000000
+    Size.PlatformDefault = False
+    TabOrder = 3
+    object lblTypeEtablissement: TLabel
+      Align = Left
+      Size.Width = 177.000000000000000000
+      Size.Height = 25.000000000000000000
+      Size.PlatformDefault = False
+      Text = 'Type d'#39#233'tablissement :'
+      TabOrder = 8
+    end
+    object lblInfoTypeEtablissement: TLabel
+      Align = Client
+      AutoSize = True
+      StyledSettings = [Family, Size, FontColor]
+      Size.Width = 443.000000000000000000
+      Size.Height = 25.000000000000000000
+      Size.PlatformDefault = False
+      TextSettings.Font.StyleExt = {00070000000000000004000000}
+      Text = 'Label1'
+      TabOrder = 4
+    end
+  end
+  object Layout2: TLayout
+    Align = Top
+    Margins.Left = 10.000000000000000000
+    Margins.Top = 10.000000000000000000
+    Margins.Right = 10.000000000000000000
+    Margins.Bottom = 10.000000000000000000
+    Position.X = 10.000000000000000000
+    Position.Y = 55.000000000000000000
+    Size.Width = 620.000000000000000000
+    Size.Height = 25.000000000000000000
+    Size.PlatformDefault = False
+    TabOrder = 2
+    object lblRaisonSociale: TLabel
+      Align = Left
+      Size.Width = 177.000000000000000000
+      Size.Height = 25.000000000000000000
+      Size.PlatformDefault = False
+      Text = 'Raison sociale :'
+      TabOrder = 8
+    end
+    object lblInfoRaisonSociale: TLabel
+      Align = Client
+      AutoSize = True
+      StyledSettings = [Family, Size, FontColor]
+      Size.Width = 443.000000000000000000
+      Size.Height = 25.000000000000000000
+      Size.PlatformDefault = False
+      TextSettings.Font.StyleExt = {00070000000000000004000000}
+      Text = 'Label1'
+      TabOrder = 4
+    end
+  end
+  object Layout3: TLayout
+    Align = Top
+    Margins.Left = 10.000000000000000000
+    Margins.Top = 10.000000000000000000
+    Margins.Right = 10.000000000000000000
+    Margins.Bottom = 10.000000000000000000
+    Position.X = 10.000000000000000000
+    Position.Y = 10.000000000000000000
+    Size.Width = 620.000000000000000000
+    Size.Height = 25.000000000000000000
+    Size.PlatformDefault = False
+    TabOrder = 1
+    object lblIDEtablissement: TLabel
+      Align = Left
+      Size.Width = 177.000000000000000000
+      Size.Height = 25.000000000000000000
+      Size.PlatformDefault = False
+      Text = 'ID :'
+      TabOrder = 0
+    end
+    object lblInfoIDEtablissement: TLabel
+      Align = Client
+      AutoSize = True
+      StyledSettings = [Family, Size, FontColor]
+      Size.Width = 443.000000000000000000
+      Size.Height = 25.000000000000000000
+      Size.PlatformDefault = False
+      TextSettings.Font.StyleExt = {00070000000000000004000000}
+      Text = 'lblInfoIDEtablissement'
+      TabOrder = 1
+    end
+  end
+end

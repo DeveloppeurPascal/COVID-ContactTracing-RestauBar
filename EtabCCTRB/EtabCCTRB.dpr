@@ -9,7 +9,8 @@ uses
   uAPI in 'uAPI.pas',
   uDM in 'uDM.pas' {dm: TDataModule},
   uParam in '..\..\Librairies\uParam.pas',
-  uConfig in 'uConfig.pas';
+  uConfig in 'uConfig.pas',
+  fVisualiser in 'fVisualiser.pas' {frmVisualiser};
 
 {$R *.res}
 

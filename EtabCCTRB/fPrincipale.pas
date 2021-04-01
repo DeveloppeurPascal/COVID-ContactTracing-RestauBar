@@ -23,11 +23,17 @@ type
     btnAnnuleCreation: TButton;
     btnCreerEtablissemen: TButton;
     ecranUtilisationCourante: TLayout;
-    Label1: TLabel;
     cbTypeEtablissementAnimation: TAniIndicator;
+    btnConsulter: TButton;
+    btnModifier: TButton;
+    btnTestCOVIDPositifs: TButton;
+    btnGenererQRCode: TButton;
+    btnFermer: TButton;
     procedure FormCreate(Sender: TObject);
     procedure btnAnnuleCreationClick(Sender: TObject);
     procedure btnCreerEtablissemenClick(Sender: TObject);
+    procedure btnFermerClick(Sender: TObject);
+    procedure btnConsulterClick(Sender: TObject);
   private
     { Déclarations privées }
     procedure afficheEcranInitialisation;
@@ -45,7 +51,7 @@ implementation
 
 {$R *.fmx}
 
-uses uConfig, uParam, uAPI_etb, System.Threading;
+uses uConfig, uParam, uAPI_etb, System.Threading, fVisualiser;
 
 procedure TfrmPrincipale.afficheEcranInitialisation;
 begin
@@ -66,8 +72,7 @@ procedure TfrmPrincipale.RemplissageListeTypeEtablissements(cb: TComboBox;
   cbAnim: TAniIndicator);
 begin
   cb.items.Clear;
-  cb.ListItems
-    [cb.items.Add('-- en attente --')].tag := -1;
+  cb.ListItems[cb.items.Add('-- en attente --')].tag := -1;
   cb.ItemIndex := 0;
   cbAnim.Enabled := true;
   cbAnim.Visible := true;
@@ -93,12 +98,11 @@ begin
               idxitem := -1;
               while not dm.tabTypesEtablissements.eof do
               begin
-                idx := cb.items.Add
-                  (dm.tabTypesEtablissements.fieldbyname('label').asstring);
-                cb.ListItems[idx].tag :=
-                  dm.tabTypesEtablissements.fieldbyname('id').asinteger;
-                if (TConfig.IDTypeEtablissement = cb.ListItems
-                  [idx].tag) then
+                idx := cb.items.Add(dm.tabTypesEtablissements.fieldbyname
+                  ('label').asstring);
+                cb.ListItems[idx].tag := dm.tabTypesEtablissements.fieldbyname
+                  ('id').asinteger;
+                if (TConfig.IDTypeEtablissement = cb.ListItems[idx].tag) then
                   idxitem := idx;
                 dm.tabTypesEtablissements.next;
               end;
@@ -119,18 +123,30 @@ begin
   close;
 end;
 
+procedure TfrmPrincipale.btnConsulterClick(Sender: TObject);
+var
+  f: TfrmVisualiser;
+begin
+  f := TfrmVisualiser.Create(self);
+  try
+    f.showmodal;
+  finally
+    f.free;
+  end;
+end;
+
 procedure TfrmPrincipale.btnCreerEtablissemenClick(Sender: TObject);
 begin
   if edtRaisonSociale.Text.trim.IsEmpty then
   begin
     edtRaisonSociale.SetFocus;
-    raise exception.create('Veuillez saisir votre nom d''établissement.');
+    raise exception.Create('Veuillez saisir votre nom d''établissement.');
   end;
   if (cbTypeEtablissement.ItemIndex < 0) or
     (cbTypeEtablissement.ListItems[cbTypeEtablissement.ItemIndex].tag < 0) then
   begin
     cbTypeEtablissement.SetFocus;
-    raise exception.create('Veuillez choisir un type d''établissement.');
+    raise exception.Create('Veuillez choisir un type d''établissement.');
   end;
   TConfig.RaisonSociale := edtRaisonSociale.Text.trim;
   TConfig.IDTypeEtablissement := cbTypeEtablissement.ListItems
@@ -140,7 +156,7 @@ begin
     procedure(id: integer)
     begin
       if (id < 0) then
-        raise exception.create
+        raise exception.Create
           ('Erreur à la création de l''établissement. Merci de retenter dans quelques secondes.')
       else
       begin
@@ -151,12 +167,22 @@ begin
     end);
 end;
 
+procedure TfrmPrincipale.btnFermerClick(Sender: TObject);
+begin
+  close;
+end;
+
 procedure TfrmPrincipale.FormCreate(Sender: TObject);
 begin
   if (TConfig.id < 0) then
     afficheEcranInitialisation
   else
     afficheEcranUtilisation;
+
+  for var i := 0 to ComponentCount - 1 do
+    if (Components[i] is TButton) and
+      (not assigned((Components[i] as TButton).onclick)) then
+      (Components[i] as TButton).Enabled := false;
 end;
 
 end.

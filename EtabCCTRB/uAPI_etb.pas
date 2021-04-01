@@ -5,8 +5,7 @@ interface
 uses FireDAC.Stan.Intf, FireDAC.Stan.Option,
   FireDAC.Stan.Param, FireDAC.Stan.Error, FireDAC.DatS, FireDAC.Phys.Intf,
   FireDAC.DApt.Intf, Data.DB, FireDAC.Comp.DataSet, FireDAC.Comp.Client,
-  FireDAC.Stan.ExprFuncs, FireDAC.Phys.SQLiteWrapper.Stat,
-  FireDAC.Phys.SQLiteDef, FireDAC.Phys, FireDAC.Phys.SQLite, System.SysUtils;
+  FireDAC.Stan.ExprFuncs, FireDAC.Phys, System.SysUtils;
 
 type
   TProcEvent<T> = procedure(Arg1: T) of object;
