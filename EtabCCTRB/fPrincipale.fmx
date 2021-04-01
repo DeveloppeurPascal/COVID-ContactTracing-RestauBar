@@ -60,6 +60,7 @@ object frmPrincipale: TfrmPrincipale
       Size.PlatformDefault = False
       TabOrder = 2
       Text = 'Interroger les clients COVID+'
+      OnClick = btnTestCOVIDPositifsClick
     end
     object btnGenererQRCode: TButton
       Align = Top
@@ -115,7 +116,7 @@ object frmPrincipale: TfrmPrincipale
       object edtRaisonSociale: TEdit
         Touch.InteractiveGestures = [LongTap, DoubleTap]
         Align = Right
-        TabOrder = 3
+        TabOrder = 4
         Position.X = 120.000000000000000000
         Size.Width = 500.000000000000000000
         Size.Height = 44.000000000000000000
@@ -142,7 +143,7 @@ object frmPrincipale: TfrmPrincipale
         Size.Width = 500.000000000000000000
         Size.Height = 44.000000000000000000
         Size.PlatformDefault = False
-        TabOrder = 3
+        TabOrder = 4
         object cbTypeEtablissementAnimation: TAniIndicator
           Align = Client
           Enabled = True

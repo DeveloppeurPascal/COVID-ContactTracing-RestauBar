@@ -35,6 +35,7 @@ type
     procedure btnFermerClick(Sender: TObject);
     procedure btnConsulterClick(Sender: TObject);
     procedure btnModifierClick(Sender: TObject);
+    procedure btnTestCOVIDPositifsClick(Sender: TObject);
   private
     { Déclarations privées }
     procedure afficheEcranInitialisation;
@@ -52,7 +53,8 @@ implementation
 
 {$R *.fmx}
 
-uses uConfig, uParam, uAPI_etb, System.Threading, fVisualiser, fModifier;
+uses uConfig, uParam, uAPI_etb, System.Threading, fVisualiser, fModifier,
+  fTestCasContact;
 
 procedure TfrmPrincipale.afficheEcranInitialisation;
 begin
@@ -178,6 +180,18 @@ var
   f: TfrmModifier;
 begin
   f := TfrmModifier.Create(self);
+  try
+    f.showmodal;
+  finally
+    f.free;
+  end;
+end;
+
+procedure TfrmPrincipale.btnTestCOVIDPositifsClick(Sender: TObject);
+var
+  f: TfrmTestCasContact;
+begin
+  f := TfrmTestCasContact.Create(self);
   try
     f.showmodal;
   finally

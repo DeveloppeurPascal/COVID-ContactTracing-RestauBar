@@ -11,7 +11,8 @@ uses
   uParam in '..\..\Librairies\uParam.pas',
   uConfig in 'uConfig.pas',
   fVisualiser in 'fVisualiser.pas' {frmVisualiser},
-  fModifier in 'fModifier.pas' {frmModifier};
+  fModifier in 'fModifier.pas' {frmModifier},
+  fTestCasContact in 'fTestCasContact.pas' {frmTestCasContact};
 
 {$R *.res}
 

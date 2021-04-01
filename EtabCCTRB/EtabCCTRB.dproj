@@ -5,7 +5,7 @@
         <FrameworkType>FMX</FrameworkType>
         <Base>True</Base>
         <Config Condition="'$(Config)'==''">Debug</Config>
-        <Platform Condition="'$(Platform)'==''">OSX64</Platform>
+        <Platform Condition="'$(Platform)'==''">Win64</Platform>
         <TargetedPlatforms>4227</TargetedPlatforms>
         <AppType>Application</AppType>
         <MainSource>EtabCCTRB.dpr</MainSource>
@@ -314,6 +314,10 @@
         </DCCReference>
         <DCCReference Include="fModifier.pas">
             <Form>frmModifier</Form>
+            <FormType>fmx</FormType>
+        </DCCReference>
+        <DCCReference Include="fTestCasContact.pas">
+            <Form>frmTestCasContact</Form>
             <FormType>fmx</FormType>
         </DCCReference>
         <BuildConfiguration Include="Release">

@@ -72,7 +72,7 @@ OUT :
 	
 - test cas contact établissement : effectué par l'application établissement sur demande de l'utilisateur
 http://localhost:8080/etbcascontact
-POST
+GET
 IN :
 	i => ID établissement
 OUT :
