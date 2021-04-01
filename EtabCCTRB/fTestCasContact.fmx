@@ -1,0 +1,74 @@
+object frmTestCasContact: TfrmTestCasContact
+  Left = 0
+  Top = 0
+  Caption = 'CCTRB - Test des cas contacts'
+  ClientHeight = 480
+  ClientWidth = 640
+  FormFactor.Width = 320
+  FormFactor.Height = 480
+  FormFactor.Devices = [Desktop]
+  OnCreate = FormCreate
+  DesignerMasterStyle = 0
+  object StringGrid1: TStringGrid
+    Align = Client
+    CanFocus = True
+    ClipChildren = True
+    Margins.Left = 10.000000000000000000
+    Margins.Top = 10.000000000000000000
+    Margins.Right = 10.000000000000000000
+    Margins.Bottom = 10.000000000000000000
+    Size.Width = 620.000000000000000000
+    Size.Height = 396.000000000000000000
+    Size.PlatformDefault = False
+    TabOrder = 0
+    Options = [ColumnResize, ColumnMove, ColLines, RowLines, Tabs, Header, HeaderClick, AutoDisplacement]
+    Viewport.Width = 616.000000000000000000
+    Viewport.Height = 371.000000000000000000
+  end
+  object btnFermer: TButton
+    Align = Bottom
+    Cancel = True
+    Default = True
+    Margins.Left = 10.000000000000000000
+    Margins.Top = 10.000000000000000000
+    Margins.Right = 10.000000000000000000
+    Margins.Bottom = 10.000000000000000000
+    Position.X = 10.000000000000000000
+    Position.Y = 426.000000000000000000
+    Size.Width = 620.000000000000000000
+    Size.Height = 44.000000000000000000
+    Size.PlatformDefault = False
+    TabOrder = 1
+    Text = 'Fermer'
+    OnClick = btnFermerClick
+  end
+  object BindingsList1: TBindingsList
+    Methods = <>
+    OutputConverters = <>
+    Left = 20
+    Top = 5
+    object LinkGridToDataSourceBindSourceDB2: TLinkGridToDataSource
+      Category = 'Liaisons rapides'
+      DataSource = BindSourceDB2
+      GridControl = StringGrid1
+      Columns = <>
+    end
+  end
+  object tabCasContacts: TFDMemTable
+    FetchOptions.AssignedValues = [evMode]
+    FetchOptions.Mode = fmAll
+    ResourceOptions.AssignedValues = [rvSilentMode]
+    ResourceOptions.SilentMode = True
+    UpdateOptions.AssignedValues = [uvCheckRequired, uvAutoCommitUpdates]
+    UpdateOptions.CheckRequired = False
+    UpdateOptions.AutoCommitUpdates = True
+    Left = 360
+    Top = 208
+  end
+  object BindSourceDB2: TBindSourceDB
+    DataSet = tabCasContacts
+    ScopeMappings = <>
+    Left = 296
+    Top = 96
+  end
+end
