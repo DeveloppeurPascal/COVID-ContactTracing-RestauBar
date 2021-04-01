@@ -2,6 +2,9 @@ unit uConfig;
 
 interface
 
+const
+  QRCodePixelParCase=20;
+
 type
   TConfig = class
   private

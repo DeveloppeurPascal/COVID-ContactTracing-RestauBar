@@ -22,8 +22,15 @@ Fonctionnalités :
 - consulter sa fiche
 - modifier sa fiche
 - savoir s'il y a eu des cas de COVID et donc des cas contacts, depuis quand
+- générer + afficher un QR code (à enregistrer en JPEG et imprimer par l'établissement)
 
-- générer + afficher et/ou imprimer le QR Code de l'établissement
+-------------------------
+
+En attendant le format officiel de QR code attribué par le gouvernement français pour Tous Anti COVID on va générer notre propre QR code pour chaque établissement.
+
+Le contenu sera du texte avec l'URL du site et l'ID de l'établissement.
+
+https://cctrb.fr/#IDEtablissement
 
 -------------------------
 

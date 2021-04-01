@@ -36,6 +36,7 @@ type
     procedure btnConsulterClick(Sender: TObject);
     procedure btnModifierClick(Sender: TObject);
     procedure btnTestCOVIDPositifsClick(Sender: TObject);
+    procedure btnGenererQRCodeClick(Sender: TObject);
   private
     { Déclarations privées }
     procedure afficheEcranInitialisation;
@@ -54,7 +55,7 @@ implementation
 {$R *.fmx}
 
 uses uConfig, uParam, uAPI_etb, System.Threading, fVisualiser, fModifier,
-  fTestCasContact;
+  fTestCasContact, fGenerationQRCode;
 
 procedure TfrmPrincipale.afficheEcranInitialisation;
 begin
@@ -173,6 +174,18 @@ end;
 procedure TfrmPrincipale.btnFermerClick(Sender: TObject);
 begin
   close;
+end;
+
+procedure TfrmPrincipale.btnGenererQRCodeClick(Sender: TObject);
+var
+  f: TfrmGenerationQRCode;
+begin
+  f := TfrmGenerationQRCode.Create(self);
+  try
+    f.showmodal;
+  finally
+    f.free;
+  end;
 end;
 
 procedure TfrmPrincipale.btnModifierClick(Sender: TObject);

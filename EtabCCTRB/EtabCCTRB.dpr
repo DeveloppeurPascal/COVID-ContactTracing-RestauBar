@@ -12,7 +12,9 @@ uses
   uConfig in 'uConfig.pas',
   fVisualiser in 'fVisualiser.pas' {frmVisualiser},
   fModifier in 'fModifier.pas' {frmModifier},
-  fTestCasContact in 'fTestCasContact.pas' {frmTestCasContact};
+  fTestCasContact in 'fTestCasContact.pas' {frmTestCasContact},
+  fGenerationQRCode in 'fGenerationQRCode.pas' {frmGenerationQRCode},
+  DelphiZXIngQRCode in '..\..\..\foxitsoftware\DelphiZXingQRCode\Source\DelphiZXIngQRCode.pas';
 
 {$R *.res}
 

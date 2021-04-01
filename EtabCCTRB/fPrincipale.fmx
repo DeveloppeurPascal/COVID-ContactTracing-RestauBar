@@ -75,6 +75,7 @@ object frmPrincipale: TfrmPrincipale
       Size.PlatformDefault = False
       TabOrder = 3
       Text = 'G'#233'n'#233'rer QR Code'
+      OnClick = btnGenererQRCodeClick
     end
     object btnFermer: TButton
       Align = Top

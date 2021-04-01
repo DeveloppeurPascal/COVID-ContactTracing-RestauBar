@@ -320,6 +320,11 @@
             <Form>frmTestCasContact</Form>
             <FormType>fmx</FormType>
         </DCCReference>
+        <DCCReference Include="fGenerationQRCode.pas">
+            <Form>frmGenerationQRCode</Form>
+            <FormType>fmx</FormType>
+        </DCCReference>
+        <DCCReference Include="..\..\..\foxitsoftware\DelphiZXingQRCode\Source\DelphiZXIngQRCode.pas"/>
         <BuildConfiguration Include="Release">
             <Key>Cfg_2</Key>
             <CfgParent>Base</CfgParent>
@@ -373,6 +378,12 @@
                 </DeployFile>
                 <DeployFile LocalName="OSX64\Debug\EtabCCTRB.entitlements" Configuration="Debug" Class="ProjectOSXEntitlements">
                     <Platform Name="OSX64">
+                        <Overwrite>true</Overwrite>
+                    </Platform>
+                </DeployFile>
+                <DeployFile LocalName="Win64\Debug\EtabCCTRB.rsm" Configuration="Debug" Class="DebugSymbols">
+                    <Platform Name="Win64">
+                        <RemoteName>EtabCCTRB.rsm</RemoteName>
                         <Overwrite>true</Overwrite>
                     </Platform>
                 </DeployFile>
