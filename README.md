@@ -7,7 +7,12 @@ TODO :
 - faire la version PHP du serveur (pour le site https://cctrb.fr )
 
 Dependance :
+
 https://github.com/DeveloppeurPascal/librairies stocké dans ../librairies
+=> des procédures et fonctions utilisées dans le projet (notamment uParam.pas)
+
+https://github.com/foxitsoftware/DelphiZXingQRCode stockée dans ../../foxitsoftware/DelphiZXingQRCode
+=> pour la création des QR Code dans le programme destiné aux établissements
 
 Plus d'informations sur https://developpeur-pascal.fr/p/_300f-cctrb--covid-contact-tracing-restau-bar.html
 
