@@ -35,18 +35,24 @@ implementation
 
 {$R *.fmx}
 
-uses uconfig;
+uses uconfig, uDM;
 
 procedure TfrmVisualiser.btnFermerClick(Sender: TObject);
 begin
-close;
+  close;
 end;
 
 procedure TfrmVisualiser.FormCreate(Sender: TObject);
 begin
   lblInfoIDEtablissement.text := tconfig.id.tostring;
   lblInfoRaisonSociale.text := tconfig.RaisonSociale;
-  lblInfoTypeEtablissement.text := tconfig.IDTypeEtablissement.tostring;
+  if dm.ChargementTypesEtablissementsTermine and
+    dm.tabTypesEtablissements.Locate('id', tconfig.IDTypeEtablissement) then
+    lblInfoTypeEtablissement.text := dm.tabTypesEtablissements.fieldbyname
+      ('label').asstring
+  else
+    lblInfoTypeEtablissement.text := tconfig.IDTypeEtablissement.tostring +
+      ' (libellé non récupérable)';
 end;
 
 end.
