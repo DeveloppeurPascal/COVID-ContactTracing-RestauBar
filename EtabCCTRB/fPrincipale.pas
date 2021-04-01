@@ -34,6 +34,7 @@ type
     procedure btnCreerEtablissemenClick(Sender: TObject);
     procedure btnFermerClick(Sender: TObject);
     procedure btnConsulterClick(Sender: TObject);
+    procedure btnModifierClick(Sender: TObject);
   private
     { Déclarations privées }
     procedure afficheEcranInitialisation;
@@ -51,7 +52,7 @@ implementation
 
 {$R *.fmx}
 
-uses uConfig, uParam, uAPI_etb, System.Threading, fVisualiser;
+uses uConfig, uParam, uAPI_etb, System.Threading, fVisualiser, fModifier;
 
 procedure TfrmPrincipale.afficheEcranInitialisation;
 begin
@@ -170,6 +171,18 @@ end;
 procedure TfrmPrincipale.btnFermerClick(Sender: TObject);
 begin
   close;
+end;
+
+procedure TfrmPrincipale.btnModifierClick(Sender: TObject);
+var
+  f: TfrmModifier;
+begin
+  f := TfrmModifier.Create(self);
+  try
+    f.showmodal;
+  finally
+    f.free;
+  end;
 end;
 
 procedure TfrmPrincipale.FormCreate(Sender: TObject);

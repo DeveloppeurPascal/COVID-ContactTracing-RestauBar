@@ -10,7 +10,8 @@ uses
   uDM in 'uDM.pas' {dm: TDataModule},
   uParam in '..\..\Librairies\uParam.pas',
   uConfig in 'uConfig.pas',
-  fVisualiser in 'fVisualiser.pas' {frmVisualiser};
+  fVisualiser in 'fVisualiser.pas' {frmVisualiser},
+  fModifier in 'fModifier.pas' {frmModifier};
 
 {$R *.res}
 

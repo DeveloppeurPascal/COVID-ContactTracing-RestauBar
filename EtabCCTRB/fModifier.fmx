@@ -1,103 +1,19 @@
-object frmPrincipale: TfrmPrincipale
+object frmModifier: TfrmModifier
   Left = 0
   Top = 0
-  BorderStyle = Single
-  Caption = 'CCTRB - Etablissements'
-  ClientHeight = 322
+  Caption = 'CCTRB - Modifier ma fiche'
+  ClientHeight = 215
   ClientWidth = 640
-  Visible = True
   FormFactor.Width = 320
   FormFactor.Height = 480
   FormFactor.Devices = [Desktop]
   OnCreate = FormCreate
   DesignerMasterStyle = 0
-  object ecranUtilisationCourante: TLayout
-    Align = Client
-    Size.Width = 640.000000000000000000
-    Size.Height = 322.000000000000000000
-    Size.PlatformDefault = False
-    TabOrder = 1
-    object btnConsulter: TButton
-      Align = Top
-      Margins.Left = 10.000000000000000000
-      Margins.Top = 10.000000000000000000
-      Margins.Right = 10.000000000000000000
-      Margins.Bottom = 10.000000000000000000
-      Position.X = 10.000000000000000000
-      Position.Y = 10.000000000000000000
-      Size.Width = 620.000000000000000000
-      Size.Height = 44.000000000000000000
-      Size.PlatformDefault = False
-      TabOrder = 0
-      Text = 'Voir ma fiche'
-      OnClick = btnConsulterClick
-    end
-    object btnModifier: TButton
-      Align = Top
-      Margins.Left = 10.000000000000000000
-      Margins.Top = 10.000000000000000000
-      Margins.Right = 10.000000000000000000
-      Margins.Bottom = 10.000000000000000000
-      Position.X = 10.000000000000000000
-      Position.Y = 74.000000000000000000
-      Size.Width = 620.000000000000000000
-      Size.Height = 44.000000000000000000
-      Size.PlatformDefault = False
-      TabOrder = 1
-      Text = 'Modifier ma fiche'
-      OnClick = btnModifierClick
-    end
-    object btnTestCOVIDPositifs: TButton
-      Align = Top
-      Margins.Left = 10.000000000000000000
-      Margins.Top = 10.000000000000000000
-      Margins.Right = 10.000000000000000000
-      Margins.Bottom = 10.000000000000000000
-      Position.X = 10.000000000000000000
-      Position.Y = 138.000000000000000000
-      Size.Width = 620.000000000000000000
-      Size.Height = 44.000000000000000000
-      Size.PlatformDefault = False
-      TabOrder = 2
-      Text = 'Interroger les clients COVID+'
-    end
-    object btnGenererQRCode: TButton
-      Align = Top
-      Margins.Left = 10.000000000000000000
-      Margins.Top = 10.000000000000000000
-      Margins.Right = 10.000000000000000000
-      Margins.Bottom = 10.000000000000000000
-      Position.X = 10.000000000000000000
-      Position.Y = 202.000000000000000000
-      Size.Width = 620.000000000000000000
-      Size.Height = 44.000000000000000000
-      Size.PlatformDefault = False
-      TabOrder = 3
-      Text = 'G'#233'n'#233'rer QR Code'
-    end
-    object btnFermer: TButton
-      Align = Top
-      Cancel = True
-      Margins.Left = 10.000000000000000000
-      Margins.Top = 10.000000000000000000
-      Margins.Right = 10.000000000000000000
-      Margins.Bottom = 10.000000000000000000
-      Position.X = 10.000000000000000000
-      Position.Y = 266.000000000000000000
-      Size.Width = 620.000000000000000000
-      Size.Height = 44.000000000000000000
-      Size.PlatformDefault = False
-      TabOrder = 4
-      Text = 'Fermer'
-      OnClick = btnFermerClick
-    end
-  end
   object ecranInitialisation: TLayout
     Align = Client
     Size.Width = 640.000000000000000000
-    Size.Height = 322.000000000000000000
+    Size.Height = 215.000000000000000000
     Size.PlatformDefault = False
-    Visible = False
     TabOrder = 0
     object lblRaisonSociale: TLabel
       Align = Top
@@ -115,7 +31,7 @@ object frmPrincipale: TfrmPrincipale
       object edtRaisonSociale: TEdit
         Touch.InteractiveGestures = [LongTap, DoubleTap]
         Align = Right
-        TabOrder = 3
+        TabOrder = 4
         Position.X = 120.000000000000000000
         Size.Width = 500.000000000000000000
         Size.Height = 44.000000000000000000
@@ -142,7 +58,7 @@ object frmPrincipale: TfrmPrincipale
         Size.Width = 500.000000000000000000
         Size.Height = 44.000000000000000000
         Size.PlatformDefault = False
-        TabOrder = 3
+        TabOrder = 4
         object cbTypeEtablissementAnimation: TAniIndicator
           Align = Client
           Enabled = True

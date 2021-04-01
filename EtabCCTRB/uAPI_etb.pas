@@ -8,6 +8,7 @@ uses FireDAC.Stan.Intf, FireDAC.Stan.Option,
   FireDAC.Stan.ExprFuncs, FireDAC.Phys, System.SysUtils;
 
 type
+  TProcEvent = procedure of object;
   TProcEvent<T> = procedure(Arg1: T) of object;
 
   /// <summary>
@@ -27,8 +28,16 @@ procedure API_EtbAddASync(RaisonSociale: string; IDTypeEtablissement: integer;
 /// <summary>
 /// API "etbchg" - modification de l'établissement
 /// </summary>
-procedure API_EtbChange(IDEtablissement: integer; RaisonSociale: string;
+procedure API_EtbChg(IDEtablissement: integer; RaisonSociale: string;
   IDTypeEtablissement: integer);
+
+/// <summary>
+/// API "etbadd" - inscription de l'établissement en asynchrone avec retour de son ID
+/// </summary>
+procedure API_EtbChgASync(IDEtablissement: integer; RaisonSociale: string;
+  IDTypeEtablissement: integer; Callback: TProc); overload;
+procedure API_EtbChgASync(IDEtablissement: integer; RaisonSociale: string;
+  IDTypeEtablissement: integer; Callback: TProcEvent); overload;
 
 /// <summary>
 /// API "etbcascontact" - Test si cas contact dans l'établissement et retourne la liste des périodes
@@ -119,10 +128,60 @@ begin
     end);
 end;
 
-procedure API_EtbChange(IDEtablissement: integer; RaisonSociale: string;
+procedure API_EtbChg(IDEtablissement: integer; RaisonSociale: string;
 IDTypeEtablissement: integer);
+var
+  serveur: thttpclient;
+  reponse: ihttpresponse;
+  params: tstringlist;
 begin
-  // TODO : à compléter
+  serveur := thttpclient.Create;
+  try
+    params := tstringlist.Create;
+    try
+      params.AddPair('i', IDEtablissement.tostring);
+      params.AddPair('l', RaisonSociale);
+      params.AddPair('t', IDTypeEtablissement.tostring);
+      try
+        reponse := serveur.post(getAPIURL + 'etbchg', params);
+      except
+
+      end;
+    finally
+      params.free;
+    end;
+  finally
+    serveur.free;
+  end;
+end;
+
+procedure API_EtbChgASync(IDEtablissement: integer; RaisonSociale: string;
+IDTypeEtablissement: integer; Callback: TProc); overload;
+begin
+  ttask.run(
+    procedure
+    begin
+      if assigned(Callback) then
+      begin
+        API_EtbChg(IDEtablissement, RaisonSociale, IDTypeEtablissement);
+        tthread.Queue(nil,
+          procedure
+          begin
+            Callback;
+          end);
+      end;
+    end);
+end;
+
+procedure API_EtbChgASync(IDEtablissement: integer; RaisonSociale: string;
+IDTypeEtablissement: integer; Callback: TProcEvent); overload;
+begin
+  API_EtbChgASync(IDEtablissement, RaisonSociale, IDTypeEtablissement,
+    procedure
+    begin
+      if assigned(Callback) then
+        Callback;
+    end);
 end;
 
 function API_EtbCasContact(IDEtablissement: integer): tfdmemtable;
