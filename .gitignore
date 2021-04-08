@@ -70,3 +70,13 @@ modules/
 
 # fichiers privés à ne pas diffuser
 _PRIVE/
+
+# dossiers de compilation
+*/Win32
+*/Win64
+*/Android
+*/Android64
+*/OSX64
+*/IOS64
+*/Linux
+
