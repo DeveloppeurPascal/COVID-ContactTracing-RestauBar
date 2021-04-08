@@ -40,10 +40,47 @@ Base de données MySQL utilisée par défaut :
 API du serveur :
 
 - inscription client : lors de la première utilisation de l'application cliente (lancement du logiciel ou première entrée dans un établissement)
+http://localhost:8080/cliadd
+GET
+IN :
+	n/a
+OUT :
+	JSON objets (id)
+
 - entrée dans un établissement : effectuée par un client par lecture du QR code de l'établissement (à son arrivée)
+http://localhost:8080/cliinetb
+GET
+IN :
+	IDClient
+	IDEtablissement (provenant du QRCode)
+OUT :
+	n/a
+
 - sortie d'un établissement : effectuée lors de l'entrée dans l'établissement suivant ou par lecture du QR Code d'un établissement lue en entrée
+http://localhost:8080/clioutetb
+GET
+IN :
+	IDClient
+	IDEtablissement (provenant du QRCode)
+OUT :
+	n/a
+code http 301 => pas d'entrée, en faire une avant de resoumettre la sortie.
+
 - déclaration COVID+ : effectuée par un client depuis son application mobile
-- test cas contact client : effectué par l'application cliente sur demande de l'utilisateur
+http://localhost:8080/deccovidplus
+GET
+IN :
+	IDClient
+OUT :
+	n/a
+
+- test cas contact client : effectué par l'application cliente sur demande de l'utilisateur renvoie la liste des tranches horaires flaguées en cas contact
+http://localhost:8080/clicascontact
+GET
+IN :
+	IDClient
+OUT :
+	JSON tableau d'objets (StartDate, EndDate)
 
 - liste des types d'établissement : demandée par le logiciel établissement pour l'inscription et la modification d'une fiche d'établissement
 http://localhost:8080/types

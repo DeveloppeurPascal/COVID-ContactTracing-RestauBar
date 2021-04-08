@@ -23,6 +23,16 @@ type
       Request: TWebRequest; Response: TWebResponse; var Handled: Boolean);
     procedure WebModule1TestCasContactEtablissementAction(Sender: TObject;
       Request: TWebRequest; Response: TWebResponse; var Handled: Boolean);
+    procedure WebModule1InscriptionclientAction(Sender: TObject;
+      Request: TWebRequest; Response: TWebResponse; var Handled: Boolean);
+    procedure WebModule1EntreeDansEtablissementAction(Sender: TObject;
+      Request: TWebRequest; Response: TWebResponse; var Handled: Boolean);
+    procedure WebModule1SortieDEtablissementAction(Sender: TObject;
+      Request: TWebRequest; Response: TWebResponse; var Handled: Boolean);
+    procedure WebModule1DeclarationCOVIDPositifAction(Sender: TObject;
+      Request: TWebRequest; Response: TWebResponse; var Handled: Boolean);
+    procedure WebModule1TestCasContactClientAction(Sender: TObject;
+      Request: TWebRequest; Response: TWebResponse; var Handled: Boolean);
   private
     FDBConnexion: TFDConnection;
     function GetFDBConnexion: TFDConnection;
@@ -42,7 +52,10 @@ implementation
 {$R *.dfm}
 
 uses
-  System.json, System.SyncObjs;
+  System.json, System.SyncObjs, uTools;
+
+var
+  MUTEXInscriptionEtablissementAction, MUTEXInscriptionClientAction: tmutex;
 
 function TWebModule1.GetFDBConnexion: TFDConnection;
 const
@@ -70,6 +83,49 @@ begin
   result := FDBConnexion;
 end;
 
+procedure TWebModule1.WebModule1DeclarationCOVIDPositifAction(Sender: TObject;
+  Request: TWebRequest; Response: TWebResponse; var Handled: Boolean);
+var
+  idcli: integer;
+  // TODO : sécuriser l'appel avec un code unique temporaire
+begin
+  // http://localhost:8080/deccovidplus (GET avec c=idcli)
+  // récupération et test de l'existence de l'ID du client
+  try
+    idcli := Request.QueryFields.Values['c'].ToInteger;
+  except
+    idcli := -1;
+  end;
+  if not((idcli > 0) and (idcli = DBConnexion.ExecSQLScalar
+    ('select IDClient from clients where IDClient=:id', [idcli]))) then
+  begin
+    Response.StatusCode := 400;
+    Response.Content := 'unknown cli';
+    exit;
+  end;
+  // traitement de la demande puisque tout est ok
+  try
+    if (0 < DBConnexion.ExecSQL
+      ('insert into declarations (IDClient, DateHeureDeclarationPositif) values (:idc, :dhdp)',
+      [idcli, DateTimeToString14.Substring(0, 12)])) then
+    begin
+      // TODO : impacter les "cas contact" sur la base de données d'historiques
+      Response.StatusCode := 200;
+      Response.Content := '';
+      exit;
+    end
+    else
+    begin
+      Response.StatusCode := 400;
+      Response.Content := 'SQL insert KO';
+      exit;
+    end;
+  except
+    Response.StatusCode := 404;
+    Response.Content := '';
+  end;
+end;
+
 procedure TWebModule1.WebModule1DefaultHandlerAction(Sender: TObject;
   Request: TWebRequest; Response: TWebResponse; var Handled: Boolean);
 begin
@@ -78,8 +134,103 @@ begin
     '<body>Application Serveur Web</body>' + '</html>';
 end;
 
+procedure TWebModule1.WebModule1EntreeDansEtablissementAction(Sender: TObject;
+  Request: TWebRequest; Response: TWebResponse; var Handled: Boolean);
 var
-  MUTEXInscriptionEtablissementAction: tmutex;
+  idetb, idcli: integer;
+  // TODO : sécuriser l'appel avec un code unique temporaire
+begin
+  // http://localhost:8080/cliinetb (GET avec i=idetb, c=idcli)
+  // récupération et test de l'existence de l'ID du client
+  try
+    idcli := Request.QueryFields.Values['c'].ToInteger;
+  except
+    idcli := -1;
+  end;
+  if not((idcli > 0) and (idcli = DBConnexion.ExecSQLScalar
+    ('select IDClient from clients where IDClient=:id', [idcli]))) then
+  begin
+    Response.StatusCode := 400;
+    Response.Content := 'unknown cli';
+    exit;
+  end;
+  // récupération et test de l'existence de l'ID d'établissement
+  try
+    idetb := Request.QueryFields.Values['i'].ToInteger;
+  except
+    idetb := -1;
+  end;
+  if not((idetb > 0) and (idetb = DBConnexion.ExecSQLScalar
+    ('select IDEtablissement from etablissements where IDEtablissement=:id',
+    [idetb]))) then
+  begin
+    Response.StatusCode := 400;
+    Response.Content := 'unknown etb';
+    exit;
+  end;
+  // traitement de la demande puisque tout est ok
+  try
+    if (0 < DBConnexion.ExecSQL
+      ('insert into historiques (IDClient, IDEtablissement, DateHeureEntree) values (:idc, :ide, :dhe)',
+      [idcli, idetb, DateTimeToString14.Substring(0, 12)])) then
+    begin
+      Response.StatusCode := 200;
+      Response.Content := '';
+      exit;
+    end
+    else
+    begin
+      Response.StatusCode := 400;
+      Response.Content := 'SQL insert KO';
+      exit;
+    end;
+  except
+    Response.StatusCode := 404;
+    Response.Content := '';
+  end;
+end;
+
+procedure TWebModule1.WebModule1InscriptionclientAction(Sender: TObject;
+  Request: TWebRequest; Response: TWebResponse; var Handled: Boolean);
+var
+  jso: tjsonobject;
+  idcli: integer;
+begin // TODO : sécuriser l'API en retournant une clé en plus de l'ID du client
+  // http://localhost:8080/cliadd (GET sans paramètre)
+  // traitement de la demande puisque tout est ok
+  try
+    MUTEXInscriptionClientAction.Acquire;
+    try
+      if (0 < DBConnexion.ExecSQL('insert into clients () values ()')) then
+        idcli := DBConnexion.GetLastAutoGenValue('')
+      else
+        idcli := -1;
+    finally
+      MUTEXInscriptionClientAction.Release;
+    end;
+    if (idcli > -1) then
+    begin
+      jso := tjsonobject.Create;
+      try
+        jso.AddPair('id', tjsonnumber.Create(idcli));
+        Response.StatusCode := 200;
+        Response.ContentType := 'application/json';
+        Response.Content := jso.ToJSON;
+      finally
+        jso.free;
+      end;
+    end
+    else
+    begin
+      Response.StatusCode := 400;
+      Response.Content := 'SQL insert KO';
+      exit;
+    end;
+  except
+    Response.StatusCode := 404;
+    Response.Content := '';
+  end;
+end;
 
 procedure TWebModule1.WebModule1InscriptionEtablissementAction(Sender: TObject;
   Request: TWebRequest; Response: TWebResponse; var Handled: Boolean);
@@ -262,6 +413,132 @@ begin
   end;
 end;
 
+procedure TWebModule1.WebModule1SortieDEtablissementAction(Sender: TObject;
+  Request: TWebRequest; Response: TWebResponse; var Handled: Boolean);
+var
+  idetb, idcli: integer;
+  dhe: string;
+  // TODO : sécuriser l'appel avec un code unique temporaire
+begin
+  // http://localhost:8080/clioutetb (GET avec i=idetb, c=idcli)
+  // récupération et test de l'existence de l'ID du client
+  try
+    idcli := Request.QueryFields.Values['c'].ToInteger;
+  except
+    idcli := -1;
+  end;
+  if not((idcli > 0) and (idcli = DBConnexion.ExecSQLScalar
+    ('select IDClient from clients where IDClient=:id', [idcli]))) then
+  begin
+    Response.StatusCode := 400;
+    Response.Content := 'unknown cli';
+    exit;
+  end;
+  // récupération et test de l'existence de l'ID d'établissement
+  try
+    idetb := Request.QueryFields.Values['i'].ToInteger;
+  except
+    idetb := -1;
+  end;
+  if not((idetb > 0) and (idetb = DBConnexion.ExecSQLScalar
+    ('select IDEtablissement from etablissements where IDEtablissement=:id',
+    [idetb]))) then
+  begin
+    Response.StatusCode := 400;
+    Response.Content := 'unknown etb';
+    exit;
+  end;
+  // récupération de l'heure d'entrée dans l'établissement
+  try
+    dhe := DBConnexion.ExecSQLScalar
+      ('select DateHeureEntree from historiques where IDClient=:idc and IDEtablissement=:ide and ((DateHeureSortie is null) or (DateHeureSortie="000000000000")) order by DateHeureEntree desc',
+      [idcli, idetb]);
+    if (dhe.Length <> 12) then
+    begin
+      Response.StatusCode := 301; // redirection
+      Response.Content := 'no entry found, submit one';
+      exit;
+    end;
+  except
+    Response.StatusCode := 400;
+    Response.Content := 'unknown dhe';
+    exit;
+  end;
+  // traitement de la demande puisque tout est ok
+  try
+    if (0 < DBConnexion.ExecSQL
+      ('update historiques set DateHeureSortie=:dhs where IDClient=:idc and IDEtablissement=:ide and DateHeureEntree=:dhe',
+      [DateTimeToString14.Substring(0, 12), idcli, idetb, dhe])) then
+    begin
+      Response.StatusCode := 200;
+      Response.Content := '';
+      exit;
+    end
+    else
+    begin
+      Response.StatusCode := 400;
+      Response.Content := 'SQL update KO';
+      exit;
+    end;
+  except
+    Response.StatusCode := 404;
+    Response.Content := '';
+  end;
+end;
+
+procedure TWebModule1.WebModule1TestCasContactClientAction(Sender: TObject;
+  Request: TWebRequest; Response: TWebResponse; var Handled: Boolean);
+var
+  idcli: integer;
+  qry: tfdquery;
+  jsa: tjsonarray;
+  // TODO : sécuriser l'appel avec un code unique temporaire
+begin
+  // http://localhost:8080/clicascontact (GET avec c=idcli)
+  // récupération et test de l'existence de l'ID du client
+  try
+    idcli := Request.QueryFields.Values['c'].ToInteger;
+  except
+    idcli := -1;
+  end;
+  if not((idcli > 0) and (idcli = DBConnexion.ExecSQLScalar
+    ('select IDClient from clients where IDClient=:id', [idcli]))) then
+  begin
+    Response.StatusCode := 400;
+    Response.Content := 'unknown cli';
+    exit;
+  end;
+  // traitement de la demande puisque tout est ok
+  try
+    jsa := tjsonarray.Create;
+    try
+      qry := tfdquery.Create(self);
+      try
+        qry.Connection := DBConnexion;
+        qry.Open('select DateHeureEntree,DateHeureSortie from historiques where IDClient=:id and CasContact=1 order by DateHeureEntree,DateHeureSortie',
+          [idcli]);
+        while not qry.Eof do
+        begin
+          jsa.Add(tjsonobject.Create.AddPair('StartDate',
+            qry.fieldbyname('DateHeureEntree').asstring).AddPair('EndDate',
+            qry.fieldbyname('DateHeureSortie').asstring));
+          qry.next;
+        end;
+      finally
+        qry.free;
+      end;
+      Response.StatusCode := 200;
+      Response.ContentType := 'application/json';
+      Response.Content := jsa.ToJSON;
+    finally
+      jsa.free;
+    end;
+  except
+    Response.StatusCode := 404;
+    Response.Content := '';
+  end;
+end;
+
 procedure TWebModule1.WebModule1TestCasContactEtablissementAction
   (Sender: TObject; Request: TWebRequest; Response: TWebResponse;
   var Handled: Boolean);
@@ -320,9 +597,11 @@ end;
 initialization
 
 MUTEXInscriptionEtablissementAction := tmutex.Create;
+MUTEXInscriptionClientAction := tmutex.Create;
 
 finalization
 
+MUTEXInscriptionClientAction.free;
 MUTEXInscriptionEtablissementAction.free;
 
 end.

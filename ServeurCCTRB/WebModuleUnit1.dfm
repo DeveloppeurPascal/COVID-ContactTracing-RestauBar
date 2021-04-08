@@ -30,6 +30,36 @@ object WebModule1: TWebModule1
       Name = 'TestCasContactEtablissement'
       PathInfo = '/etbcascontact'
       OnAction = WebModule1TestCasContactEtablissementAction
+    end
+    item
+      MethodType = mtGet
+      Name = 'InscriptionClient'
+      PathInfo = '/cliadd'
+      OnAction = WebModule1InscriptionclientAction
+    end
+    item
+      MethodType = mtGet
+      Name = 'EntreeDansEtablissement'
+      PathInfo = '/cliinetb'
+      OnAction = WebModule1EntreeDansEtablissementAction
+    end
+    item
+      MethodType = mtGet
+      Name = 'SortieDEtablissement'
+      PathInfo = '/clioutetb'
+      OnAction = WebModule1SortieDEtablissementAction
+    end
+    item
+      MethodType = mtGet
+      Name = 'DeclarationCOVIDPositif'
+      PathInfo = '/deccovidplus'
+      OnAction = WebModule1DeclarationCOVIDPositifAction
+    end
+    item
+      MethodType = mtGet
+      Name = 'TestCasContactClient'
+      PathInfo = '/clicascontact'
+      OnAction = WebModule1TestCasContactClientAction
     end>
   Height = 230
   Width = 415
