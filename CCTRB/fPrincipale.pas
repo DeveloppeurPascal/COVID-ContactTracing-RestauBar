@@ -26,12 +26,17 @@ type
     procedure FormCreate(Sender: TObject);
     procedure btnDeclarerPositiviteClick(Sender: TObject);
     procedure btnInfosSurLeLogicielClick(Sender: TObject);
+    procedure btnTestCasContactClick(Sender: TObject);
+    procedure btnEntrerClick(Sender: TObject);
+    procedure btnSortirClick(Sender: TObject);
   private
     { Déclarations privées }
     procedure InterfaceBloque(AvecAnimation: boolean = true);
     procedure InterfaceDebloque;
     procedure ReferenceLAppareil;
     procedure EnvoiDeclarationCOVIDPositif;
+    procedure QRCodeEntreeLu(QRCode: string);
+    procedure QRCodeSortieLu(QRCode: string);
   public
     { Déclarations publiques }
   end;
@@ -65,17 +70,54 @@ begin
   end;
 end;
 
+procedure TfrmPrincipale.btnEntrerClick(Sender: TObject);
+var
+  frm: TfrmLectureQRcode;
+begin
+  frm := TfrmLectureQRcode.Create(Self);
+  frm.onQRCodeLu := QRCodeEntreeLu;
+{$IF Defined(IOS) or Defined(ANDROID)}
+  frm.Show;
+{$ELSE}
+  frm.ShowModal;
+{$ENDIF}
+end;
+
 procedure TfrmPrincipale.btnInfosSurLeLogicielClick(Sender: TObject);
 var
   frm: TfrmAPropos;
 begin
   frm := TfrmAPropos.Create(Self);
-  try
-    frm.ShowModal;
-  finally
-    frm.free;
-  end;
+{$IF Defined(IOS) or Defined(ANDROID)}
+  frm.Show;
+{$ELSE}
+  frm.ShowModal;
+{$ENDIF}
 end;
+
+procedure TfrmPrincipale.btnSortirClick(Sender: TObject);
+var
+  frm: TfrmLectureQRcode;
+begin
+  frm := TfrmLectureQRcode.Create(Self);
+  frm.onQRCodeLu := QRCodeSortieLu;
+{$IF Defined(IOS) or Defined(ANDROID)}
+  frm.Show;
+{$ELSE}
+  frm.ShowModal;
+{$ENDIF}
+end;
+
+procedure TfrmPrincipale.btnTestCasContactClick(Sender: TObject);
+var
+  frm: TfrmTestCasContact;
+begin
+  frm := TfrmTestCasContact.Create(Self);
+{$IF Defined(IOS) or Defined(ANDROID)}
+  frm.Show;
+{$ELSE}
+  frm.ShowModal;
+{$ENDIF} end;
 
 procedure TfrmPrincipale.EnvoiDeclarationCOVIDPositif;
 begin
@@ -86,7 +128,7 @@ begin
       procedure
       begin
         InterfaceDebloque;
-        // TODO : enregistrer l'information comme quoi l'envoi a été fait
+        // TODO : enregistrer l'information comme quoi l'envoi a été fait (si pas d'erreur)
       end);
   except
     InterfaceDebloque;
@@ -130,6 +172,18 @@ begin
   VerrouillageInterface.Visible := false;
 end;
 
+procedure TfrmPrincipale.QRCodeEntreeLu(QRCode: string);
+begin
+  // TODO : à compléter
+  showmessage(QRCode);
+end;
+
+procedure TfrmPrincipale.QRCodeSortieLu(QRCode: string);
+begin
+  // TODO : à compléter
+  showmessage(QRCode);
+end;
+
 procedure TfrmPrincipale.ReferenceLAppareil;
 begin
   if (tconfig.id < 1) then
@@ -141,8 +195,8 @@ begin
         begin
           if (id < 1) then
           begin
-            showmessage
-              ('Probleme d''accès au serveur '+getAPIURL+', merci de retenter dans quelques secondes.');
+            showmessage('Probleme d''accès au serveur ' + getAPIURL +
+              ', merci de retenter dans quelques secondes.');
             ReferenceLAppareil;
           end
           else
@@ -161,5 +215,9 @@ end;
 initialization
 
 TDialogService.PreferredMode := TDialogService.TPreferredMode.Async;
+
+{$IFDEF DEBUG}
+ReportMemoryLeaksOnShutdown := true;
+{$ENDIF}
 
 end.

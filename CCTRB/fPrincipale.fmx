@@ -35,6 +35,7 @@ object frmPrincipale: TfrmPrincipale
         StyleLookup = 'CCTRBMenuEntrerButtonStyle'
         TabOrder = 4
         Text = 'Entrer'
+        OnClick = btnEntrerClick
       end
       object btnSortir: TButton
         Position.X = 250.000000000000000000
@@ -44,6 +45,7 @@ object frmPrincipale: TfrmPrincipale
         StyleLookup = 'CCTRBMenuSortirButtonStyle'
         TabOrder = 3
         Text = 'Sortir'
+        OnClick = btnSortirClick
       end
       object btnDeclarerPositivite: TButton
         Position.Y = 150.000000000000000000
@@ -64,6 +66,7 @@ object frmPrincipale: TfrmPrincipale
         StyleLookup = 'CCTRBMenuCasContactButtonStyle'
         TabOrder = 1
         Text = 'Suis-je cas contact ?'
+        OnClick = btnTestCasContactClick
       end
       object btnInfosSurLeLogiciel: TButton
         Position.Y = 300.000000000000000000
@@ -444,7 +447,7 @@ object frmPrincipale: TfrmPrincipale
   end
   object VerrouillageInterface: TRectangle
     Align = Contents
-    Opacity = 0.699999988079071000
+    Opacity = 0.699999988079071100
     Size.Width = 599.000000000000000000
     Size.Height = 515.000000000000000000
     Size.PlatformDefault = False

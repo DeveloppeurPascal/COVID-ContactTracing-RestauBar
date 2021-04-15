@@ -10,7 +10,10 @@ uses
   UAPI_cli in 'UAPI_cli.pas',
   fLectureQRcode in 'fLectureQRcode.pas' {frmLectureQRcode},
   fAPropos in 'fAPropos.pas' {frmAPropos},
-  fTestCasContact in 'fTestCasContact.pas' {frmTestCasContact};
+  fTestCasContact in 'fTestCasContact.pas' {frmTestCasContact},
+  ZXing.ScanManager in '..\..\..\Spelt\ZXing.Delphi\Lib\Classes\ZXing.ScanManager.pas',
+  ZXing.BarcodeFormat in '..\..\..\Spelt\ZXing.Delphi\Lib\Classes\Common\ZXing.BarcodeFormat.pas',
+  ZXing.ReadResult in '..\..\..\Spelt\ZXing.Delphi\Lib\Classes\Common\ZXing.ReadResult.pas';
 
 {$R *.res}
 

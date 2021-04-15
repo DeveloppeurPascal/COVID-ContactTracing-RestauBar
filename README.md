@@ -14,6 +14,9 @@ https://github.com/DeveloppeurPascal/librairies stocké dans ../librairies
 https://github.com/foxitsoftware/DelphiZXingQRCode stockée dans ../../foxitsoftware/DelphiZXingQRCode
 => pour la création des QR Code dans le programme destiné aux établissements
 
+https://github.com/Spelt/ZXing.Delphi stockée dans ../../Spelt/ZXing
+=> pour le scan des images de la caméra et l'interprétation des QR codes
+
 Plus d'informations sur https://developpeur-pascal.fr/p/_300f-cctrb--covid-contact-tracing-restau-bar.html
 
 -----
