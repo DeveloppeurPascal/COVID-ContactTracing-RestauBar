@@ -5,10 +5,10 @@ interface
 type
   TConfig = class
   private
-    procedure SetID(const Value: integer);
-    function GetID: integer;
+    class procedure SetID(const Value: integer); static;
+    class function GetID: integer; static;
   public
-    property ID: integer read GetID write SetID;
+    class property ID: integer read GetID write SetID;
   end;
 
 implementation
@@ -21,15 +21,15 @@ const
 
   { TConfig }
 
-function TConfig.GetID: integer;
+class function TConfig.GetID: integer;
 begin
   result := tParams.getValue(CKEYID, -1);
 end;
 
-procedure TConfig.SetID(const Value: integer);
+class procedure TConfig.SetID(const Value: integer);
 begin
   tParams.setValue(CKEYID, Value);
-
+  tParams.save;
 end;
 
 end.

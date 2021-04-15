@@ -2,6 +2,7 @@ unit fPrincipale;
 
 interface
 
+// TODO : traiter une file d'attente d'envois à faire au serveur en cas de déconnexion
 uses
   System.SysUtils, System.Types, System.UITypes, System.Classes,
   System.Variants,
@@ -19,10 +20,17 @@ type
     btnDeclarerPositivite: TButton;
     btnTestCasContact: TButton;
     btnInfosSurLeLogiciel: TButton;
-    procedure btnEntrerClick(Sender: TObject);
+    VerrouillageInterface: TRectangle;
+    VerrouillageInterfaceAnimation: TAniIndicator;
     procedure FormResize(Sender: TObject);
+    procedure FormCreate(Sender: TObject);
+    procedure btnDeclarerPositiviteClick(Sender: TObject);
   private
     { Déclarations privées }
+    procedure InterfaceBloque(AvecAnimation: boolean = true);
+    procedure InterfaceDebloque;
+    procedure ReferenceLAppareil;
+    procedure EnvoiDeclarationCOVIDPositif;
   public
     { Déclarations publiques }
   end;
@@ -34,9 +42,47 @@ implementation
 
 {$R *.fmx}
 
-procedure TfrmPrincipale.btnEntrerClick(Sender: TObject);
+uses uConfig, UAPI_cli, FMX.DialogService;
+
+procedure TfrmPrincipale.btnDeclarerPositiviteClick(Sender: TObject);
 begin
-  showmessage('test');
+  InterfaceBloque(false);
+  try
+    TDialogService.MessageDialog
+      ('Confirmez-vous avoir fait un test COVID positif ?',
+      tmsgdlgtype.mtConfirmation, [tmsgdlgbtn.mbYes, tmsgdlgbtn.mbno],
+      tmsgdlgbtn.mbno, 0,
+      procedure(const AResult: TModalResult)
+      begin
+        InterfaceDebloque;
+        if AResult = mryes then
+          EnvoiDeclarationCOVIDPositif;
+      end);
+  except
+    InterfaceDebloque;
+  end;
+end;
+
+procedure TfrmPrincipale.EnvoiDeclarationCOVIDPositif;
+begin
+  // TODO : enregistrer l'information en attendant d'être sûr de l'avoir transférée (ou pour historique local)
+  InterfaceBloque;
+  try
+    API_CliDecCOVIDPlusASync(tconfig.id,
+      procedure
+      begin
+        InterfaceDebloque;
+        // TODO : enregistrer l'information comme quoi l'envoi a été fait
+      end);
+  except
+    InterfaceDebloque;
+    raise;
+  end;
+end;
+
+procedure TfrmPrincipale.FormCreate(Sender: TObject);
+begin
+  ReferenceLAppareil;
 end;
 
 procedure TfrmPrincipale.FormResize(Sender: TObject);
@@ -53,5 +99,53 @@ begin
         FlowLayout1.height := c.height + c.Position.y + 10;
     end;
 end;
+
+procedure TfrmPrincipale.InterfaceBloque(AvecAnimation: boolean);
+begin
+  VerrouillageInterface.Visible := true;
+  VerrouillageInterface.BringToFront;
+  VerrouillageInterface.HitTest := true;
+  VerrouillageInterfaceAnimation.Visible := AvecAnimation;
+  VerrouillageInterfaceAnimation.Enabled :=
+    VerrouillageInterfaceAnimation.Visible;
+end;
+
+procedure TfrmPrincipale.InterfaceDebloque;
+begin
+  VerrouillageInterfaceAnimation.Enabled := false;
+  VerrouillageInterface.Visible := false;
+end;
+
+procedure TfrmPrincipale.ReferenceLAppareil;
+begin
+  if (tconfig.id < 1) then
+  begin
+    InterfaceBloque;
+    try
+      API_CliAddASync(
+        procedure(id: integer)
+        begin
+          if (id < 1) then
+          begin
+            showmessage
+              ('Probleme d''accès au serveur, merci de retenter dans quelques secondes.');
+            ReferenceLAppareil;
+          end
+          else
+          begin
+            tconfig.id := id;
+            InterfaceDebloque;
+          end;
+        end);
+    except
+      InterfaceDebloque;
+      raise;
+    end;
+  end;
+end;
+
+initialization
+
+TDialogService.PreferredMode := TDialogService.TPreferredMode.Async;
 
 end.
