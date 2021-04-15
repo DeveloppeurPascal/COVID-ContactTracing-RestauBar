@@ -73,6 +73,7 @@ object frmPrincipale: TfrmPrincipale
         StyleLookup = 'CCTRBMenuInfosButtonStyle'
         TabOrder = 0
         Text = 'A Propos'
+        OnClick = btnInfosSurLeLogicielClick
       end
     end
   end

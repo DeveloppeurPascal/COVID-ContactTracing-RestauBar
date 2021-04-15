@@ -25,6 +25,7 @@ type
     procedure FormResize(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure btnDeclarerPositiviteClick(Sender: TObject);
+    procedure btnInfosSurLeLogicielClick(Sender: TObject);
   private
     { Déclarations privées }
     procedure InterfaceBloque(AvecAnimation: boolean = true);
@@ -42,7 +43,8 @@ implementation
 
 {$R *.fmx}
 
-uses uConfig, UAPI_cli, FMX.DialogService;
+uses uConfig, UAPI_cli, FMX.DialogService, fAPropos, fLectureQRcode,
+  fTestCasContact, uAPI;
 
 procedure TfrmPrincipale.btnDeclarerPositiviteClick(Sender: TObject);
 begin
@@ -60,6 +62,18 @@ begin
       end);
   except
     InterfaceDebloque;
+  end;
+end;
+
+procedure TfrmPrincipale.btnInfosSurLeLogicielClick(Sender: TObject);
+var
+  frm: TfrmAPropos;
+begin
+  frm := TfrmAPropos.Create(Self);
+  try
+    frm.ShowModal;
+  finally
+    frm.free;
   end;
 end;
 
@@ -128,7 +142,7 @@ begin
           if (id < 1) then
           begin
             showmessage
-              ('Probleme d''accès au serveur, merci de retenter dans quelques secondes.');
+              ('Probleme d''accès au serveur '+getAPIURL+', merci de retenter dans quelques secondes.');
             ReferenceLAppareil;
           end
           else

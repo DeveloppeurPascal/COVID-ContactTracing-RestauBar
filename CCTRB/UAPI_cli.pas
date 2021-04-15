@@ -259,7 +259,7 @@ begin
 end;
 
 procedure API_CliDecCOVIDPlusASync(IDClient: integer; Callback: TProc);
-  overload;
+  overload;              // TODO: ajouter un callback en cas d'erreur
 begin
   ttask.run(
     procedure

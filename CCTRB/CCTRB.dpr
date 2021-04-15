@@ -8,13 +8,14 @@ uses
   uParam in '..\..\Librairies\uParam.pas',
   uConfig in 'uConfig.pas',
   UAPI_cli in 'UAPI_cli.pas',
-  fLectureQRcode in 'fLectureQRcode.pas' {frmLectureQRcode};
+  fLectureQRcode in 'fLectureQRcode.pas' {frmLectureQRcode},
+  fAPropos in 'fAPropos.pas' {frmAPropos},
+  fTestCasContact in 'fTestCasContact.pas' {frmTestCasContact};
 
 {$R *.res}
 
 begin
   Application.Initialize;
   Application.CreateForm(TfrmPrincipale, frmPrincipale);
-  Application.CreateForm(TfrmLectureQRcode, frmLectureQRcode);
   Application.Run;
 end.
