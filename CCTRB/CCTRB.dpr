@@ -13,7 +13,8 @@ uses
   fTestCasContact in 'fTestCasContact.pas' {frmTestCasContact},
   ZXing.ScanManager in '..\..\..\Spelt\ZXing.Delphi\Lib\Classes\ZXing.ScanManager.pas',
   ZXing.BarcodeFormat in '..\..\..\Spelt\ZXing.Delphi\Lib\Classes\Common\ZXing.BarcodeFormat.pas',
-  ZXing.ReadResult in '..\..\..\Spelt\ZXing.Delphi\Lib\Classes\Common\ZXing.ReadResult.pas';
+  ZXing.ReadResult in '..\..\..\Spelt\ZXing.Delphi\Lib\Classes\Common\ZXing.ReadResult.pas',
+  uRoutines in 'uRoutines.pas';
 
 {$R *.res}
 

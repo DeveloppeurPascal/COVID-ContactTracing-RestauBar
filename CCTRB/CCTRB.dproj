@@ -326,6 +326,7 @@
         <DCCReference Include="..\..\..\Spelt\ZXing.Delphi\Lib\Classes\ZXing.ScanManager.pas"/>
         <DCCReference Include="..\..\..\Spelt\ZXing.Delphi\Lib\Classes\Common\ZXing.BarcodeFormat.pas"/>
         <DCCReference Include="..\..\..\Spelt\ZXing.Delphi\Lib\Classes\Common\ZXing.ReadResult.pas"/>
+        <DCCReference Include="uRoutines.pas"/>
         <BuildConfiguration Include="Release">
             <Key>Cfg_2</Key>
             <CfgParent>Base</CfgParent>

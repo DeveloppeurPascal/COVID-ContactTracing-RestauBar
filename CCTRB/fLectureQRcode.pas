@@ -35,7 +35,6 @@ type
     ScanEnCours: Boolean;
     ScanBitmap: TBitmap;
     ScanManager: TScanManager;
-    function isQRCodeConforme(QRCode: string): Boolean;
   public
     { Déclarations publiques }
     property onQRCodeLu: TonQRCodeLuEvent read FonQRCodeLu write SetonQRCodeLu;
@@ -49,7 +48,7 @@ implementation
 {$R *.fmx}
 
 uses
-  System.Permissions, System.Threading;
+  System.Permissions, System.Threading, uRoutines;
 
 function TfrmLectureQRcode.AppEvent(AAppEvent: TApplicationEvent;
   AContext: TObject): Boolean;
@@ -168,11 +167,6 @@ begin
 {$ELSE}
   CameraComponent1.Active := true;
 {$ENDIF}
-end;
-
-function TfrmLectureQRcode.isQRCodeConforme(QRCode: string): Boolean;
-begin
-  Result := (QRCode.Length > 0) and (QRCode.StartsWith('https://cctrb.fr/#'));
 end;
 
 procedure TfrmLectureQRcode.SetonQRCodeLu(const Value: TonQRCodeLuEvent);

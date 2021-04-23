@@ -49,7 +49,7 @@ implementation
 {$R *.fmx}
 
 uses uConfig, UAPI_cli, FMX.DialogService, fAPropos, fLectureQRcode,
-  fTestCasContact, uAPI;
+  fTestCasContact, uAPI, uRoutines;
 
 procedure TfrmPrincipale.btnDeclarerPositiviteClick(Sender: TObject);
 begin
@@ -173,15 +173,61 @@ begin
 end;
 
 procedure TfrmPrincipale.QRCodeEntreeLu(QRCode: string);
+var
+  IDEtb: integer;
 begin
-  // TODO : à compléter
-  showmessage(QRCode);
+  if isQRCodeConforme(QRCode) then
+    IDEtb := QRCode.Substring(QRCode.IndexOf('#') + 1).ToInteger
+  else
+    IDEtb := -1;
+
+  if (IDEtb > 0) then
+  begin
+    // TODO : enregistrer l'information en attendant d'être sûr de l'avoir transférée (ou pour historique local)
+    InterfaceBloque;
+    try
+      API_CliEntreDansEtablissementASync(tconfig.id, IDEtb,
+        procedure
+        begin
+          InterfaceDebloque;
+          // TODO : enregistrer l'information comme quoi l'envoi a été fait (si pas d'erreur)
+        end);
+    except
+      InterfaceDebloque;
+      raise;
+    end;
+  end
+  else
+    raise exception.Create('Etablissement inconnu.');
 end;
 
 procedure TfrmPrincipale.QRCodeSortieLu(QRCode: string);
+var
+  IDEtb: integer;
 begin
-  // TODO : à compléter
-  showmessage(QRCode);
+  if isQRCodeConforme(QRCode) then
+    IDEtb := QRCode.Substring(QRCode.IndexOf('#') + 1).ToInteger
+  else
+    IDEtb := -1;
+
+  if (IDEtb > 0) then
+  begin
+    // TODO : enregistrer l'information en attendant d'être sûr de l'avoir transférée (ou pour historique local)
+    InterfaceBloque;
+    try
+      API_CliSortDUnEtablissementASync(tconfig.id, IDEtb,
+        procedure
+        begin
+          InterfaceDebloque;
+          // TODO : enregistrer l'information comme quoi l'envoi a été fait (si pas d'erreur)
+        end);
+    except
+      InterfaceDebloque;
+      raise;
+    end;
+  end
+  else
+    raise exception.Create('Etablissement inconnu.');
 end;
 
 procedure TfrmPrincipale.ReferenceLAppareil;
