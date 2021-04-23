@@ -153,6 +153,9 @@
         </DCCReference>
         <DCCReference Include="ServerConst1.pas"/>
         <DCCReference Include="uTools.pas"/>
+        <DCCReference Include="..\..\Librairies\uChecksumVerif.pas"/>
+        <DCCReference Include="..\uCCTRBPrivateKey.pas"/>
+        <DCCReference Include="..\..\Librairies\u_md5.pas"/>
         <BuildConfiguration Include="Release">
             <Key>Cfg_2</Key>
             <CfgParent>Base</CfgParent>

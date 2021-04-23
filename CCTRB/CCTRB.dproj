@@ -5,7 +5,7 @@
         <FrameworkType>FMX</FrameworkType>
         <Base>True</Base>
         <Config Condition="'$(Config)'==''">Debug</Config>
-        <Platform Condition="'$(Platform)'==''">Android64</Platform>
+        <Platform Condition="'$(Platform)'==''">Win32</Platform>
         <TargetedPlatforms>33809</TargetedPlatforms>
         <AppType>Application</AppType>
         <MainSource>CCTRB.dpr</MainSource>
@@ -327,6 +327,9 @@
         <DCCReference Include="..\..\..\Spelt\ZXing.Delphi\Lib\Classes\Common\ZXing.BarcodeFormat.pas"/>
         <DCCReference Include="..\..\..\Spelt\ZXing.Delphi\Lib\Classes\Common\ZXing.ReadResult.pas"/>
         <DCCReference Include="uRoutines.pas"/>
+        <DCCReference Include="..\..\Librairies\uChecksumVerif.pas"/>
+        <DCCReference Include="..\uCCTRBPrivateKey.pas"/>
+        <DCCReference Include="..\..\Librairies\u_md5.pas"/>
         <BuildConfiguration Include="Release">
             <Key>Cfg_2</Key>
             <CfgParent>Base</CfgParent>
@@ -376,6 +379,12 @@
                 <DeployFile LocalName="$(BDS)\bin\Artwork\Android\FM_LauncherIcon_72x72.png" Configuration="Debug" Class="Android_LauncherIcon72">
                     <Platform Name="Android">
                         <RemoteName>ic_launcher.png</RemoteName>
+                        <Overwrite>true</Overwrite>
+                    </Platform>
+                </DeployFile>
+                <DeployFile LocalName="Win32\Release\CCTRB.exe" Configuration="Release" Class="ProjectOutput">
+                    <Platform Name="Win32">
+                        <RemoteName>CCTRB.exe</RemoteName>
                         <Overwrite>true</Overwrite>
                     </Platform>
                 </DeployFile>

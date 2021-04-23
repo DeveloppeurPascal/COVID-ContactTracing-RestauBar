@@ -11,7 +11,10 @@ uses
   Web.WebBroker,
   WebModuleUnit1 in 'WebModuleUnit1.pas' {WebModule1: TWebModule},
   ServerConst1 in 'ServerConst1.pas',
-  uTools in 'uTools.pas';
+  uTools in 'uTools.pas',
+  uChecksumVerif in '..\..\Librairies\uChecksumVerif.pas',
+  uCCTRBPrivateKey in '..\uCCTRBPrivateKey.pas',
+  u_md5 in '..\..\Librairies\u_md5.pas';
 
 {$R *.res}
 

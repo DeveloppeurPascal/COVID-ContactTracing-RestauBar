@@ -14,7 +14,10 @@ uses
   ZXing.ScanManager in '..\..\..\Spelt\ZXing.Delphi\Lib\Classes\ZXing.ScanManager.pas',
   ZXing.BarcodeFormat in '..\..\..\Spelt\ZXing.Delphi\Lib\Classes\Common\ZXing.BarcodeFormat.pas',
   ZXing.ReadResult in '..\..\..\Spelt\ZXing.Delphi\Lib\Classes\Common\ZXing.ReadResult.pas',
-  uRoutines in 'uRoutines.pas';
+  uRoutines in 'uRoutines.pas',
+  uChecksumVerif in '..\..\Librairies\uChecksumVerif.pas',
+  uCCTRBPrivateKey in '..\uCCTRBPrivateKey.pas',
+  u_md5 in '..\..\Librairies\u_md5.pas';
 
 {$R *.res}
 

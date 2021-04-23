@@ -13,6 +13,7 @@ Paramétrage :
 - ID etablissement => fourni par l'API serveur lors de l'inscription
 - raison sociale => saisie utilisateur
 - type etablissement => saisie utilisateur
+- Clé publique et clé privée
 
 -------------------------
 
@@ -36,4 +37,3 @@ https://cctrb.fr/#IDEtablissement
 
 TODO 
 => traiter la perte des paramètres ou le changement d'ordinateur
-=> faire en sorte que l'établissement ne puisse modifier que sa fiche

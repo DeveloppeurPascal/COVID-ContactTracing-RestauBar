@@ -17,6 +17,8 @@ voir fichier cctrb.sql
 - ID etablissement
 - raison sociale
 - type etablissement
+- ClePublique
+- ClePrivee
 
 => type etablissement
 - ID type etablissement
@@ -28,6 +30,8 @@ voir fichier cctrb.sql
 
 => clients
 - ID client
+- ClePublique
+- ClePrivee
 
 Base de données MySQL utilisée par défaut :
 - serveur : localhost
@@ -39,13 +43,15 @@ Base de données MySQL utilisée par défaut :
 
 API du serveur :
 
+Un calcul de checksum est fait lors de certains appels. S'il n'est pas valide le serveur retourne une erreur 500.
+
 - inscription client : lors de la première utilisation de l'application cliente (lancement du logiciel ou première entrée dans un établissement)
 http://localhost:8080/cliadd
 GET
 IN :
-	n/a
+	V (calcul checksum avec CleCCTRB)
 OUT :
-	JSON objets (id)
+	JSON objets (id, kpub, kpriv)
 
 - entrée dans un établissement : effectuée par un client par lecture du QR code de l'établissement (à son arrivée)
 http://localhost:8080/cliinetb
@@ -53,6 +59,7 @@ GET
 IN :
 	IDClient
 	IDEtablissement (provenant du QRCode)
+	V (calcul checksum avec cleprivee + IDClient + IDEtablissement)
 OUT :
 	n/a
 
@@ -62,6 +69,7 @@ GET
 IN :
 	IDClient
 	IDEtablissement (provenant du QRCode)
+	V (calcul checksum avec cleprivee + IDClient + IDEtablissement)
 OUT :
 	n/a
 code http 301 => pas d'entrée, en faire une avant de resoumettre la sortie.
@@ -71,6 +79,7 @@ http://localhost:8080/deccovidplus
 GET
 IN :
 	IDClient
+	V (calcul checksum avec cleprivee + IDClient)
 OUT :
 	n/a
 
@@ -79,6 +88,7 @@ http://localhost:8080/clicascontact
 GET
 IN :
 	IDClient
+	V (calcul checksum avec cleprivee + IDClient)
 OUT :
 	JSON tableau d'objets (StartDate, EndDate)
 
@@ -94,8 +104,9 @@ POST
 IN :
 	l => raison sociale
 	t => ID du type établissement
+	V (calcul checksum avec CleCCTRB + raison sociale + ID Type Etablissement)
 OUT :
-	JSON objets (id)
+	JSON objets (id, kpub, kpriv)
 
 - modification établissement : modification de la fiche d'un établissement
 http://localhost:8080/etbchg
@@ -104,6 +115,8 @@ IN :
 	i => ID établissement
 	l => raison sociale
 	t => ID du type établissement
+	V1 (calcul checksum avec CleCCTRB + IDEtablissement + raison sociale + ID Type Etablissement)
+	V2 (calcul checksum avec cleprivee + IDEtablissement + raison sociale + ID Type Etablissement)
 OUT :
 	n/a
 	
@@ -112,6 +125,7 @@ http://localhost:8080/etbcascontact
 GET
 IN :
 	i => ID établissement
+	V (calcul checksum avec cleprivee + IDEtablissement)
 OUT :
 	JSON tableau d'objets (StartDate, EndDate)
 

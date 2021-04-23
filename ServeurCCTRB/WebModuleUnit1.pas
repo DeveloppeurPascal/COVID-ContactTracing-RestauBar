@@ -52,7 +52,7 @@ implementation
 {$R *.dfm}
 
 uses
-  System.json, System.SyncObjs, uTools;
+  System.json, System.SyncObjs, uTools, uCCTRBPrivateKey, uChecksumVerif;
 
 var
   MUTEXInscriptionEtablissementAction, MUTEXInscriptionClientAction: tmutex;
@@ -68,11 +68,20 @@ begin
     if not FDManager.IsConnectionDef(_ConnectionDefName) then
     begin
       DBParams := tstringlist.Create;
+{$IFDEF DEBUG}
       DBParams.Values['Database'] := 'cctrb';
       DBParams.Values['User_Name'] := 'root';
       // TODO : change the DB user (never use 'root')
       DBParams.Values['Password'] := ''; // TODO : change the DB password
       DBParams.Values['DriverID'] := 'MySQL';
+
+{$ELSE}
+      // TODO : mettre identifiants base de production différents de la base de développement
+      DBParams.Values['Database'] := 'XXX';
+      DBParams.Values['User_Name'] := 'XXX';
+      DBParams.Values['Password'] := 'XXX';
+      DBParams.Values['DriverID'] := 'MySQL';
+{$ENDIF}
       FDManager.AddConnectionDef(_ConnectionDefName, 'MySQL', DBParams);
     end;
     FDBConnexion := TFDConnection.Create(self);
@@ -87,9 +96,9 @@ procedure TWebModule1.WebModule1DeclarationCOVIDPositifAction(Sender: TObject;
   Request: TWebRequest; Response: TWebResponse; var Handled: Boolean);
 var
   idcli: integer;
-  // TODO : sécuriser l'appel avec un code unique temporaire
-begin
+  // TODO : traiter checksum
   // http://localhost:8080/deccovidplus (GET avec c=idcli)
+begin
   // récupération et test de l'existence de l'ID du client
   try
     idcli := Request.QueryFields.Values['c'].ToInteger;
@@ -138,9 +147,9 @@ procedure TWebModule1.WebModule1EntreeDansEtablissementAction(Sender: TObject;
   Request: TWebRequest; Response: TWebResponse; var Handled: Boolean);
 var
   idetb, idcli: integer;
-  // TODO : sécuriser l'appel avec un code unique temporaire
-begin
+  // TODO : traiter checksum
   // http://localhost:8080/cliinetb (GET avec i=idetb, c=idcli)
+begin
   // récupération et test de l'existence de l'ID du client
   try
     idcli := Request.QueryFields.Values['c'].ToInteger;
@@ -195,13 +204,19 @@ procedure TWebModule1.WebModule1InscriptionclientAction(Sender: TObject;
 var
   jso: tjsonobject;
   idcli: integer;
-begin // TODO : sécuriser l'API en retournant une clé en plus de l'ID du client
+  kpriv, kpub: string;
+  // TODO : traiter checksum
   // http://localhost:8080/cliadd (GET sans paramètre)
+begin
   // traitement de la demande puisque tout est ok
   try
+    kpub := getKeyPrivPub;
+    kpriv := getKeyPrivPub;
     MUTEXInscriptionClientAction.Acquire;
     try
-      if (0 < DBConnexion.ExecSQL('insert into clients () values ()')) then
+      if (0 < DBConnexion.ExecSQL
+        ('insert into clients (ClePublique,ClePrivee) values (:kpu,:kpr)',
+        [kpub, kpriv])) then
         idcli := DBConnexion.GetLastAutoGenValue('')
       else
         idcli := -1;
@@ -213,6 +228,8 @@ begin // TODO : sécuriser l'API en retournant une clé en plus de l'ID du client
       jso := tjsonobject.Create;
       try
         jso.AddPair('id', tjsonnumber.Create(idcli));
+        jso.AddPair('kpriv', kpriv);
+        jso.AddPair('kpub', kpub);
         Response.StatusCode := 200;
         Response.ContentType := 'application/json';
         Response.Content := jso.ToJSON;
@@ -239,19 +256,15 @@ var
   raisonsociale: string;
   idtypetablissement: integer;
   idetb: integer;
-begin // TODO : sécuriser l'API en retournant une clé en plus de l'ID d'établissement
+  kpriv, kpub: string;
+  Checksum: string;
   // http://localhost:8080/etbadd (POST avec l=raisonsociale et t=idetablissement)
+begin
   // récupération et test de l'existence de la raison sociale de l'établissement
   try
     raisonsociale := Request.ContentFields.Values['l'];
   except
     raisonsociale := '';
-  end;
-  if raisonsociale.IsEmpty then
-  begin
-    Response.StatusCode := 400;
-    Response.Content := 'missing label parameter';
-    exit;
   end;
   // récupération et test de l'existence de l'ID du type d'établissement
   try
@@ -259,6 +272,27 @@ begin // TODO : sécuriser l'API en retournant une clé en plus de l'ID d'établiss
   except
     idtypetablissement := -1;
   end;
+  // Récupération et vérification du checksum
+  try
+    Checksum := Request.ContentFields.Values['v'];
+  except
+    Checksum := '';
+  end;
+  if not ChecksumVerif.check(Checksum, getCCTRBPrivateKey, raisonsociale,
+    idtypetablissement.ToString) then
+  begin
+    Response.StatusCode := 500;
+    Response.Content := 'internal server error';
+    exit;
+  end;
+  // test validité raison sociale
+  if raisonsociale.IsEmpty then
+  begin
+    Response.StatusCode := 400;
+    Response.Content := 'missing label parameter';
+    exit;
+  end;
+  // test validité type établissement
   if not((idtypetablissement > 0) and
     (idtypetablissement = DBConnexion.ExecSQLScalar
     ('select IDTypeEtablissement from typesetablissements where IDTypeEtablissement=:id',
@@ -270,11 +304,13 @@ begin // TODO : sécuriser l'API en retournant une clé en plus de l'ID d'établiss
   end;
   // traitement de la demande puisque tout est ok
   try
+    kpriv := getKeyPrivPub;
+    kpub := getKeyPrivPub;
     MUTEXInscriptionEtablissementAction.Acquire;
     try
       if (0 < DBConnexion.ExecSQL
-        ('insert into etablissements (RaisonSociale,IDTypeEtablissement) values (:rs,:idte)',
-        [raisonsociale, idtypetablissement])) then
+        ('insert into etablissements (RaisonSociale,IDTypeEtablissement,ClePublique,ClePrivee) values (:rs,:idte,:kpub,:kpriv)',
+        [raisonsociale, idtypetablissement, kpub, kpriv])) then
         idetb := DBConnexion.GetLastAutoGenValue('')
       else
         idetb := -1;
@@ -286,6 +322,8 @@ begin // TODO : sécuriser l'API en retournant une clé en plus de l'ID d'établiss
       jso := tjsonobject.Create;
       try
         jso.AddPair('id', tjsonnumber.Create(idetb));
+        jso.AddPair('kpriv', kpriv);
+        jso.AddPair('kpub', kpub);
         Response.StatusCode := 200;
         Response.ContentType := 'application/json';
         Response.Content := jso.ToJSON;
@@ -310,8 +348,9 @@ procedure TWebModule1.WebModule1ListeTypesEtablissementsAction(Sender: TObject;
 var
   qry: tfdquery;
   jsa: tjsonarray;
-begin // TODO : passer la langue en paramètre IN et sortir les textes dans la bonne langue
   // http://localhost:8080/types
+begin
+  // TODO : passer la langue en paramètre IN et sortir les textes dans la bonne langue
   try
     qry := tfdquery.Create(self);
     try
@@ -347,15 +386,42 @@ var
   idetb: integer;
   raisonsociale: string;
   idtypetablissement: integer;
-  // TODO : sécuriser l'appel avec un code unique temporaire
-begin
+  Checksum: string;
+  kpriv: string;
   // http://localhost:8080/etbchg (POST avec i=idetb l=raisonsociale et t=idetablissement)
+begin
   // récupération et test de l'existence de l'ID d'établissement
   try
     idetb := Request.ContentFields.Values['i'].ToInteger;
   except
     idetb := -1;
   end;
+  // récupération et test de l'existence de la raison sociale de l'établissement
+  try
+    raisonsociale := Request.ContentFields.Values['l'];
+  except
+    raisonsociale := '';
+  end;
+  // récupération et test de l'existence de l'ID du type d'établissement
+  try
+    idtypetablissement := Request.ContentFields.Values['t'].ToInteger;
+  except
+    idtypetablissement := -1;
+  end;
+  // Récupération et vérification du checksum V1
+  try
+    Checksum := Request.ContentFields.Values['v1'];
+  except
+    Checksum := '';
+  end;
+  if not ChecksumVerif.check(Checksum, getCCTRBPrivateKey, idetb.ToString,
+    raisonsociale, idtypetablissement.ToString) then
+  begin
+    Response.StatusCode := 500;
+    Response.Content := 'internal server error';
+    exit;
+  end;
+  // vérification établissement
   if not((idetb > 0) and (idetb = DBConnexion.ExecSQLScalar
     ('select IDEtablissement from etablissements where IDEtablissement=:id',
     [idetb]))) then
@@ -364,24 +430,29 @@ begin
     Response.Content := 'unknown etb';
     exit;
   end;
-  // récupération et test de l'existence de la raison sociale de l'établissement
+  kpriv := DBConnexion.ExecSQLScalar
+    ('select ClePrivee from etablissements where IDEtablissement=:id', [idetb]);
+  // Récupération et vérification du checksum V2
   try
-    raisonsociale := Request.ContentFields.Values['l'];
+    Checksum := Request.ContentFields.Values['v2'];
   except
-    raisonsociale := '';
+    Checksum := '';
   end;
+  if not ChecksumVerif.check(Checksum, kpriv, idetb.ToString, raisonsociale,
+    idtypetablissement.ToString) then
+  begin
+    Response.StatusCode := 500;
+    Response.Content := 'internal server error';
+    exit;
+  end;
+  // vérification raison sociale
   if raisonsociale.IsEmpty then
   begin
     Response.StatusCode := 400;
     Response.Content := 'missing label parameter';
     exit;
   end;
-  // récupération et test de l'existence de l'ID du type d'établissement
-  try
-    idtypetablissement := Request.ContentFields.Values['t'].ToInteger;
-  except
-    idtypetablissement := -1;
-  end;
+  // vérification type établissement
   if not((idtypetablissement > 0) and
     (idtypetablissement = DBConnexion.ExecSQLScalar
     ('select IDTypeEtablissement from typesetablissements where IDTypeEtablissement=:id',
@@ -418,9 +489,9 @@ procedure TWebModule1.WebModule1SortieDEtablissementAction(Sender: TObject;
 var
   idetb, idcli: integer;
   dhe: string;
-  // TODO : sécuriser l'appel avec un code unique temporaire
-begin
+  // TODO : traiter checksum
   // http://localhost:8080/clioutetb (GET avec i=idetb, c=idcli)
+begin
   // récupération et test de l'existence de l'ID du client
   try
     idcli := Request.QueryFields.Values['c'].ToInteger;
@@ -492,9 +563,9 @@ var
   idcli: integer;
   qry: tfdquery;
   jsa: tjsonarray;
-  // TODO : sécuriser l'appel avec un code unique temporaire
-begin
+  // TODO : traiter checksum
   // http://localhost:8080/clicascontact (GET avec c=idcli)
+begin
   // récupération et test de l'existence de l'ID du client
   try
     idcli := Request.QueryFields.Values['c'].ToInteger;
@@ -546,9 +617,9 @@ var
   idetb: integer;
   qry: tfdquery;
   jsa: tjsonarray;
-  // TODO : sécuriser l'appel avec un code unique temporaire
-begin
+  // TODO : traiter checksum
   // http://localhost:8080/etbcascontact (GET avec i=idetb)
+begin
   // récupération et test de l'existence de l'ID d'établissement
   try
     idetb := Request.QueryFields.Values['i'].ToInteger;

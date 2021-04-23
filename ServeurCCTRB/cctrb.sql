@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1:3306
--- Généré le : jeu. 11 mars 2021 à 15:08
+-- Généré le : ven. 23 avr. 2021 à 13:43
 -- Version du serveur :  5.7.31
 -- Version de PHP : 7.3.21
 
@@ -30,7 +30,10 @@ SET time_zone = "+00:00";
 DROP TABLE IF EXISTS `clients`;
 CREATE TABLE IF NOT EXISTS `clients` (
   `IDClient` bigint(20) NOT NULL AUTO_INCREMENT,
-  PRIMARY KEY (`IDClient`)
+  `ClePrivee` char(64) DEFAULT NULL,
+  `ClePublique` char(64) DEFAULT NULL,
+  PRIMARY KEY (`IDClient`),
+  UNIQUE KEY `ClientsParClePublique` (`ClePublique`,`IDClient`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -43,7 +46,8 @@ DROP TABLE IF EXISTS `declarations`;
 CREATE TABLE IF NOT EXISTS `declarations` (
   `IDClient` bigint(20) NOT NULL DEFAULT '0',
   `DateHeureDeclarationPositif` char(12) NOT NULL DEFAULT '000000000000',
-  PRIMARY KEY (`IDClient`,`DateHeureDeclarationPositif`)
+  PRIMARY KEY (`IDClient`,`DateHeureDeclarationPositif`),
+  KEY `DeclarationsParDate` (`DateHeureDeclarationPositif`,`IDClient`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -55,9 +59,12 @@ CREATE TABLE IF NOT EXISTS `declarations` (
 DROP TABLE IF EXISTS `etablissements`;
 CREATE TABLE IF NOT EXISTS `etablissements` (
   `IDEtablissement` bigint(20) NOT NULL AUTO_INCREMENT,
-  `RaisonSociale` varchar(255) NOT NULL DEFAULT '',
+  `RaisonSociale` varchar(255) NOT NULL,
   `IDTypeEtablissement` bigint(20) NOT NULL DEFAULT '0',
-  PRIMARY KEY (`IDEtablissement`)
+  `ClePrivee` char(64) DEFAULT NULL,
+  `ClePublique` char(64) DEFAULT NULL,
+  PRIMARY KEY (`IDEtablissement`),
+  UNIQUE KEY `EtablissementsParClePublique` (`ClePublique`,`IDEtablissement`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -72,8 +79,12 @@ CREATE TABLE IF NOT EXISTS `historiques` (
   `IDEtablissement` bigint(20) NOT NULL,
   `DateHeureEntree` char(12) NOT NULL DEFAULT '000000000000',
   `DateHeureSortie` char(12) NOT NULL DEFAULT '000000000000',
-  `CasContact` tinyint(1) NOT NULL DEFAULT '0',
-  PRIMARY KEY (`IDClient`,`IDEtablissement`,`DateHeureEntree`)
+  `CasContact` tinyint(4) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`IDClient`,`IDEtablissement`,`DateHeureEntree`),
+  KEY `HistoriqueClieEtbSortie` (`IDClient`,`IDEtablissement`,`DateHeureSortie`,`DateHeureEntree`),
+  KEY `HistoCOVIDEtbEntSor` (`CasContact`,`IDEtablissement`,`DateHeureEntree`,`DateHeureSortie`,`IDClient`),
+  KEY `HistoCOVIDCliEntSor` (`CasContact`,`IDClient`,`DateHeureEntree`,`DateHeureSortie`),
+  KEY `HistoriquesParDate` (`DateHeureEntree`,`IDClient`,`IDEtablissement`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -85,19 +96,21 @@ CREATE TABLE IF NOT EXISTS `historiques` (
 DROP TABLE IF EXISTS `typesetablissements`;
 CREATE TABLE IF NOT EXISTS `typesetablissements` (
   `IDTypeEtablissement` bigint(20) NOT NULL AUTO_INCREMENT,
-  `libellle` varchar(255) NOT NULL DEFAULT '',
+  `libelle` varchar(255) NOT NULL,
   PRIMARY KEY (`IDTypeEtablissement`)
-) ENGINE=MyISAM AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
 
 --
 -- Déchargement des données de la table `typesetablissements`
 --
 
-INSERT INTO `typesetablissements` (`IDTypeEtablissement`, `libellle`) VALUES
-(1, 'Bar'),
-(2, 'Restaurant'),
+INSERT INTO `typesetablissements` (`IDTypeEtablissement`, `libelle`) VALUES
+(1, 'Restaurant'),
+(2, 'Bar'),
 (3, 'Coiffeur'),
-(4, 'Salon de thé');
+(4, 'Boite de nuit'),
+(5, 'Salon de thé'),
+(6, 'Salle de sport');
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

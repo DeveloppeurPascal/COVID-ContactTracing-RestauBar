@@ -11,6 +11,7 @@ rien
 Paramétrage :
 
 - ID client => fourni par l'API serveur lors de l'inscription ou de la première entrée dans un établissement
+- Clé publique et clé privée
 
 -------------------------
 

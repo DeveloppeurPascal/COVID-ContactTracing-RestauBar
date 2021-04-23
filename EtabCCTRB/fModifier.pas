@@ -62,7 +62,7 @@ begin
     [cbTypeEtablissement.ItemIndex].tag;
   tparams.save;
   API_EtbChgASync(TConfig.id, TConfig.RaisonSociale,
-    TConfig.IDTypeEtablissement,
+    TConfig.IDTypeEtablissement, TConfig.PrivateKey,
     procedure
     begin
       close;

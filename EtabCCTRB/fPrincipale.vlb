@@ -5,3 +5,6 @@ Visible=True
 [dm.tabTypesEtablissements]
 Coordinates=349,20,176,36
 
+[frmTestCasContact.tabCasContacts]
+Visible=False
+

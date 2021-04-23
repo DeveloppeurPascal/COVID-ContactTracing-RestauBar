@@ -157,7 +157,7 @@ begin
     [cbTypeEtablissement.ItemIndex].tag;
   tparams.save;
   API_EtbAddASync(TConfig.RaisonSociale, TConfig.IDTypeEtablissement,
-    procedure(id: integer)
+    procedure(id: integer; KPriv, KPub: string)
     begin
       if (id < 0) then
         raise exception.Create
@@ -165,6 +165,8 @@ begin
       else
       begin
         TConfig.id := id;
+        TConfig.PublicKey := KPub;
+        TConfig.PrivateKey := KPriv;
         tparams.save;
         afficheEcranUtilisation;
       end;

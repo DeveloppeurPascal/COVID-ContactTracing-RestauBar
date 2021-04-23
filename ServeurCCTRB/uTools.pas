@@ -31,8 +31,11 @@ function DateTimeToString14(Const ADateTime: TDateTime): string; overload;
 /// <summary>Transforme une chaine de caractères AAAAMMJJHHMMSS en TDateTime
 /// </summary>
 function String14ToDateTime(const AAAAMMJJHHNNSS: string): TDateTime;
-/// <summary>Transforme un tableau en son équivalent JSON.
+
+/// <summary>
+/// Génère un identifiant pour la clé publique et la clé privée
 /// </summary>
+function getKeyPrivPub(Taille: integer = 64): string;
 
 implementation
 
@@ -90,6 +93,33 @@ begin
     .ToInteger) + EncodeTime(AAAAMMJJHHNNSS.Substring(8, 2).ToInteger,
     AAAAMMJJHHNNSS.Substring(10, 2).ToInteger, AAAAMMJJHHNNSS.Substring(12, 2)
     .ToInteger, 0);
+end;
+
+function getKeyPrivPub(Taille: integer): string;
+
+  function CaractereAleatoire: char;
+  var
+    nb: integer;
+  begin
+    nb := random(10 + 26 + 26);
+    case nb of
+      0 .. 9: // chiffres
+        Result := chr(ord('0') + nb);
+      10 .. (10 + 26 - 1): // lettres minuscules
+        Result := chr(ord('a') + nb - 10);
+      (10 + 26) .. (10 + 26 + 26 - 1): // lettres majuscules
+        Result := chr(ord('A') + nb - 10 - 26);
+    else
+      Result := '0';
+    end;
+  end;
+
+var
+  i: integer;
+begin
+  Result := '';
+  for i := 1 to Taille do
+    Result := Result + CaractereAleatoire;
 end;
 
 end.

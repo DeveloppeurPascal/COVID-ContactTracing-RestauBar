@@ -14,7 +14,10 @@ uses
   fModifier in 'fModifier.pas' {frmModifier},
   fTestCasContact in 'fTestCasContact.pas' {frmTestCasContact},
   fGenerationQRCode in 'fGenerationQRCode.pas' {frmGenerationQRCode},
-  DelphiZXIngQRCode in '..\..\..\foxitsoftware\DelphiZXingQRCode\Source\DelphiZXIngQRCode.pas';
+  DelphiZXIngQRCode in '..\..\..\foxitsoftware\DelphiZXingQRCode\Source\DelphiZXIngQRCode.pas',
+  uChecksumVerif in '..\..\Librairies\uChecksumVerif.pas',
+  uCCTRBPrivateKey in '..\uCCTRBPrivateKey.pas',
+  u_md5 in '..\..\Librairies\u_md5.pas';
 
 {$R *.res}
 

@@ -13,12 +13,19 @@ object AppMetaData: TAppMetaData
     item
       VersionID = 1
       DateTime = 44273.644273888890000000
+      CloseDate = 44309.643592534730000000
+      FileName = 'cctrb.1'
+      Information = 'ajout index et cl'#233's privee/publique'#13#10
+    end
+    item
+      VersionID = 2
+      DateTime = 44309.643733055560000000
     end>
   DataDictionary.DatabaseTypeID = 'mysql57'
   DataDictionary.NextTableID = 6
-  DataDictionary.NextFieldID = 14
+  DataDictionary.NextFieldID = 18
   DataDictionary.NextConstraintID = 1
-  DataDictionary.NextIndexID = 1
+  DataDictionary.NextIndexID = 8
   DataDictionary.NextRelationshipID = 1
   DataDictionary.Domains = <>
   DataDictionary.Tables = <
@@ -40,8 +47,53 @@ object AppMetaData: TAppMetaData
           SeedValue = 0
           IncrementValue = 1
           GeneratedByRelationship = False
+        end
+        item
+          FieldName = 'ClePrivee'
+          DataTypeName = 'Char'
+          Size = 64
+          Size2 = 0
+          Required = False
+          FID = 16
+          DefaultValueSpecific = False
+          RequiredSpecific = False
+          ConstraintExprSpecific = False
+          SeedValue = 0
+          IncrementValue = 1
+          GeneratedByRelationship = False
+        end
+        item
+          FieldName = 'ClePublique'
+          DataTypeName = 'Char'
+          Size = 64
+          Size2 = 0
+          Required = False
+          FID = 17
+          DefaultValueSpecific = False
+          RequiredSpecific = False
+          ConstraintExprSpecific = False
+          SeedValue = 0
+          IncrementValue = 1
+          GeneratedByRelationship = False
         end>
-      Indexes = <>
+      Indexes = <
+        item
+          IndexName = 'ClientsParClePublique'
+          IndexType = itUniqueKey
+          IndexOrder = ioAscending
+          IID = 1
+          IFields = <
+            item
+              FieldIndex = 2
+              FieldOrder = ioAsc
+              KeyByRelationship = False
+            end
+            item
+              FieldIndex = 0
+              FieldOrder = ioAsc
+              KeyByRelationship = False
+            end>
+        end>
       Constraints = <>
       Triggers = <>
       PrimaryKeyIndex.IndexName = 'PRIMARY'
@@ -90,7 +142,24 @@ object AppMetaData: TAppMetaData
           IncrementValue = 1
           GeneratedByRelationship = False
         end>
-      Indexes = <>
+      Indexes = <
+        item
+          IndexName = 'DeclarationsParDate'
+          IndexType = itNone
+          IndexOrder = ioAscending
+          IID = 3
+          IFields = <
+            item
+              FieldIndex = 1
+              FieldOrder = ioAsc
+              KeyByRelationship = False
+            end
+            item
+              FieldIndex = 0
+              FieldOrder = ioAsc
+              KeyByRelationship = False
+            end>
+        end>
       Constraints = <>
       Triggers = <>
       PrimaryKeyIndex.IndexName = 'PRIMARY'
@@ -156,8 +225,53 @@ object AppMetaData: TAppMetaData
           SeedValue = 0
           IncrementValue = 1
           GeneratedByRelationship = False
+        end
+        item
+          FieldName = 'ClePrivee'
+          DataTypeName = 'Char'
+          Size = 64
+          Size2 = 0
+          Required = False
+          FID = 14
+          DefaultValueSpecific = False
+          RequiredSpecific = False
+          ConstraintExprSpecific = False
+          SeedValue = 0
+          IncrementValue = 1
+          GeneratedByRelationship = False
+        end
+        item
+          FieldName = 'ClePublique'
+          DataTypeName = 'Char'
+          Size = 64
+          Size2 = 0
+          Required = False
+          FID = 15
+          DefaultValueSpecific = False
+          RequiredSpecific = False
+          ConstraintExprSpecific = False
+          SeedValue = 0
+          IncrementValue = 1
+          GeneratedByRelationship = False
         end>
-      Indexes = <>
+      Indexes = <
+        item
+          IndexName = 'EtablissementsParClePublique'
+          IndexType = itUniqueKey
+          IndexOrder = ioAscending
+          IID = 2
+          IFields = <
+            item
+              FieldIndex = 4
+              FieldOrder = ioAsc
+              KeyByRelationship = False
+            end
+            item
+              FieldIndex = 0
+              FieldOrder = ioAsc
+              KeyByRelationship = False
+            end>
+        end>
       Constraints = <>
       Triggers = <>
       PrimaryKeyIndex.IndexName = 'PRIMARY'
@@ -249,7 +363,115 @@ object AppMetaData: TAppMetaData
           IncrementValue = 1
           GeneratedByRelationship = False
         end>
-      Indexes = <>
+      Indexes = <
+        item
+          IndexName = 'HistoriquesParDate'
+          IndexType = itNone
+          IndexOrder = ioAscending
+          IID = 4
+          IFields = <
+            item
+              FieldIndex = 2
+              FieldOrder = ioAsc
+              KeyByRelationship = False
+            end
+            item
+              FieldIndex = 0
+              FieldOrder = ioAsc
+              KeyByRelationship = False
+            end
+            item
+              FieldIndex = 1
+              FieldOrder = ioAsc
+              KeyByRelationship = False
+            end>
+        end
+        item
+          IndexName = 'HistoriqueClieEtbSortie'
+          IndexType = itNone
+          IndexOrder = ioAscending
+          IID = 5
+          IFields = <
+            item
+              FieldIndex = 0
+              FieldOrder = ioAsc
+              KeyByRelationship = False
+            end
+            item
+              FieldIndex = 1
+              FieldOrder = ioAsc
+              KeyByRelationship = False
+            end
+            item
+              FieldIndex = 3
+              FieldOrder = ioAsc
+              KeyByRelationship = False
+            end
+            item
+              FieldIndex = 2
+              FieldOrder = ioAsc
+              KeyByRelationship = False
+            end>
+        end
+        item
+          IndexName = 'HistoCOVIDCliEntSor'
+          IndexType = itNone
+          IndexOrder = ioAscending
+          IID = 6
+          IFields = <
+            item
+              FieldIndex = 4
+              FieldOrder = ioAsc
+              KeyByRelationship = False
+            end
+            item
+              FieldIndex = 0
+              FieldOrder = ioAsc
+              KeyByRelationship = False
+            end
+            item
+              FieldIndex = 2
+              FieldOrder = ioAsc
+              KeyByRelationship = False
+            end
+            item
+              FieldIndex = 3
+              FieldOrder = ioAsc
+              KeyByRelationship = False
+            end>
+        end
+        item
+          IndexName = 'HistoCOVIDEtbEntSor'
+          IndexType = itNone
+          IndexOrder = ioAscending
+          IID = 7
+          IFields = <
+            item
+              FieldIndex = 4
+              FieldOrder = ioAsc
+              KeyByRelationship = False
+            end
+            item
+              FieldIndex = 1
+              FieldOrder = ioAsc
+              KeyByRelationship = False
+            end
+            item
+              FieldIndex = 2
+              FieldOrder = ioAsc
+              KeyByRelationship = False
+            end
+            item
+              FieldIndex = 3
+              FieldOrder = ioAsc
+              KeyByRelationship = False
+            end
+            item
+              FieldIndex = 0
+              FieldOrder = ioAsc
+              KeyByRelationship = False
+            end>
+        end>
       Constraints = <>
       Triggers = <>
       PrimaryKeyIndex.IndexName = 'PRIMARY'

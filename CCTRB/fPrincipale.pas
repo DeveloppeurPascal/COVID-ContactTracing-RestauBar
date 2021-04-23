@@ -49,7 +49,7 @@ implementation
 {$R *.fmx}
 
 uses uConfig, UAPI_cli, FMX.DialogService, fAPropos, fLectureQRcode,
-  fTestCasContact, uAPI, uRoutines;
+  fTestCasContact, uAPI, uRoutines, uParam;
 
 procedure TfrmPrincipale.btnDeclarerPositiviteClick(Sender: TObject);
 begin
@@ -237,7 +237,7 @@ begin
     InterfaceBloque;
     try
       API_CliAddASync(
-        procedure(id: integer)
+        procedure(id: integer; KPriv, KPub: string)
         begin
           if (id < 1) then
           begin
@@ -248,6 +248,9 @@ begin
           else
           begin
             tconfig.id := id;
+            tconfig.PublicKey := KPub;
+            tconfig.PrivateKey := KPriv;
+            tparams.save;
             InterfaceDebloque;
           end;
         end);
