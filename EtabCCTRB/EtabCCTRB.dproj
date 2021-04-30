@@ -4,7 +4,7 @@
         <ProjectVersion>19.2</ProjectVersion>
         <FrameworkType>FMX</FrameworkType>
         <Base>True</Base>
-        <Config Condition="'$(Config)'==''">Debug</Config>
+        <Config Condition="'$(Config)'==''">WAMP</Config>
         <Platform Condition="'$(Platform)'==''">Win64</Platform>
         <TargetedPlatforms>4227</TargetedPlatforms>
         <AppType>Application</AppType>
@@ -72,6 +72,32 @@
     </PropertyGroup>
     <PropertyGroup Condition="('$(Platform)'=='Win64' and '$(Cfg_1)'=='true') or '$(Cfg_1_Win64)'!=''">
         <Cfg_1_Win64>true</Cfg_1_Win64>
+        <CfgParent>Cfg_1</CfgParent>
+        <Cfg_1>true</Cfg_1>
+        <Base>true</Base>
+    </PropertyGroup>
+    <PropertyGroup Condition="'$(Config)'=='WAMP' or '$(Cfg_3)'!=''">
+        <Cfg_3>true</Cfg_3>
+        <CfgParent>Cfg_1</CfgParent>
+        <Cfg_1>true</Cfg_1>
+        <Base>true</Base>
+    </PropertyGroup>
+    <PropertyGroup Condition="('$(Platform)'=='OSX64' and '$(Cfg_3)'=='true') or '$(Cfg_3_OSX64)'!=''">
+        <Cfg_3_OSX64>true</Cfg_3_OSX64>
+        <CfgParent>Cfg_3</CfgParent>
+        <Cfg_3>true</Cfg_3>
+        <Cfg_1>true</Cfg_1>
+        <Base>true</Base>
+    </PropertyGroup>
+    <PropertyGroup Condition="('$(Platform)'=='Win64' and '$(Cfg_3)'=='true') or '$(Cfg_3_Win64)'!=''">
+        <Cfg_3_Win64>true</Cfg_3_Win64>
+        <CfgParent>Cfg_3</CfgParent>
+        <Cfg_3>true</Cfg_3>
+        <Cfg_1>true</Cfg_1>
+        <Base>true</Base>
+    </PropertyGroup>
+    <PropertyGroup Condition="'$(Config)'=='WebBrocker' or '$(Cfg_4)'!=''">
+        <Cfg_4>true</Cfg_4>
         <CfgParent>Cfg_1</CfgParent>
         <Cfg_1>true</Cfg_1>
         <Base>true</Base>
@@ -276,6 +302,22 @@
         <VerInfo_Locale>1033</VerInfo_Locale>
         <VerInfo_AutoIncVersion>true</VerInfo_AutoIncVersion>
     </PropertyGroup>
+    <PropertyGroup Condition="'$(Cfg_3)'!=''">
+        <DCC_Define>CCTRB_WAMP;$(DCC_Define)</DCC_Define>
+    </PropertyGroup>
+    <PropertyGroup Condition="'$(Cfg_3_OSX64)'!=''">
+        <VerInfo_IncludeVerInfo>true</VerInfo_IncludeVerInfo>
+        <VerInfo_AutoIncVersion>true</VerInfo_AutoIncVersion>
+    </PropertyGroup>
+    <PropertyGroup Condition="'$(Cfg_3_Win64)'!=''">
+        <VerInfo_IncludeVerInfo>true</VerInfo_IncludeVerInfo>
+        <VerInfo_AutoIncVersion>true</VerInfo_AutoIncVersion>
+        <VerInfo_Locale>1033</VerInfo_Locale>
+        <AppEnableRuntimeThemes>true</AppEnableRuntimeThemes>
+    </PropertyGroup>
+    <PropertyGroup Condition="'$(Cfg_4)'!=''">
+        <DCC_Define>CCTRB_WEBBROCKER;$(DCC_Define)</DCC_Define>
+    </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_2)'!=''">
         <DCC_LocalDebugSymbols>false</DCC_LocalDebugSymbols>
         <DCC_Define>RELEASE;$(DCC_Define)</DCC_Define>
@@ -328,16 +370,24 @@
         <DCCReference Include="..\..\Librairies\uChecksumVerif.pas"/>
         <DCCReference Include="..\uCCTRBPrivateKey.pas"/>
         <DCCReference Include="..\..\Librairies\u_md5.pas"/>
+        <BuildConfiguration Include="Base">
+            <Key>Base</Key>
+        </BuildConfiguration>
+        <BuildConfiguration Include="WebBrocker">
+            <Key>Cfg_4</Key>
+            <CfgParent>Cfg_1</CfgParent>
+        </BuildConfiguration>
         <BuildConfiguration Include="Release">
             <Key>Cfg_2</Key>
             <CfgParent>Base</CfgParent>
         </BuildConfiguration>
-        <BuildConfiguration Include="Base">
-            <Key>Base</Key>
-        </BuildConfiguration>
         <BuildConfiguration Include="Debug">
             <Key>Cfg_1</Key>
             <CfgParent>Base</CfgParent>
+        </BuildConfiguration>
+        <BuildConfiguration Include="WAMP">
+            <Key>Cfg_3</Key>
+            <CfgParent>Cfg_1</CfgParent>
         </BuildConfiguration>
     </ItemGroup>
     <ProjectExtensions>
