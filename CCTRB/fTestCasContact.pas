@@ -58,7 +58,7 @@ end;
 
 procedure TfrmTestCasContact.FormCreate(Sender: TObject);
 begin
-  API_CliCasContactASync(tconfig.id,
+  API_CliCasContactASync(tconfig.id,tconfig.PrivateKey,
     procedure(tab: TFDMemTable)
     begin
       tabCasContacts.CopyDataSet(tab, [coStructure, coRestart, coAppend]);

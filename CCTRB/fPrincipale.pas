@@ -22,6 +22,7 @@ type
     btnInfosSurLeLogiciel: TButton;
     VerrouillageInterface: TRectangle;
     VerrouillageInterfaceAnimation: TAniIndicator;
+    Label1: TLabel;
     procedure FormResize(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure btnDeclarerPositiviteClick(Sender: TObject);
@@ -124,7 +125,7 @@ begin
   // TODO : enregistrer l'information en attendant d'être sûr de l'avoir transférée (ou pour historique local)
   InterfaceBloque;
   try
-    API_CliDecCOVIDPlusASync(tconfig.id,
+    API_CliDecCOVIDPlusASync(tconfig.id, tconfig.PrivateKey,
       procedure
       begin
         InterfaceDebloque;
@@ -138,6 +139,11 @@ end;
 
 procedure TfrmPrincipale.FormCreate(Sender: TObject);
 begin
+{$IFDEF DEBUG}
+  Label1.visible := true;
+{$ELSE}
+  Label1.visible := false;
+{$ENDIF}
   ReferenceLAppareil;
 end;
 
@@ -158,18 +164,18 @@ end;
 
 procedure TfrmPrincipale.InterfaceBloque(AvecAnimation: boolean);
 begin
-  VerrouillageInterface.Visible := true;
+  VerrouillageInterface.visible := true;
   VerrouillageInterface.BringToFront;
   VerrouillageInterface.HitTest := true;
-  VerrouillageInterfaceAnimation.Visible := AvecAnimation;
+  VerrouillageInterfaceAnimation.visible := AvecAnimation;
   VerrouillageInterfaceAnimation.Enabled :=
-    VerrouillageInterfaceAnimation.Visible;
+    VerrouillageInterfaceAnimation.visible;
 end;
 
 procedure TfrmPrincipale.InterfaceDebloque;
 begin
   VerrouillageInterfaceAnimation.Enabled := false;
-  VerrouillageInterface.Visible := false;
+  VerrouillageInterface.visible := false;
 end;
 
 procedure TfrmPrincipale.QRCodeEntreeLu(QRCode: string);
@@ -186,7 +192,7 @@ begin
     // TODO : enregistrer l'information en attendant d'être sûr de l'avoir transférée (ou pour historique local)
     InterfaceBloque;
     try
-      API_CliEntreDansEtablissementASync(tconfig.id, IDEtb,
+      API_CliEntreDansEtablissementASync(tconfig.id, IDEtb, tconfig.PrivateKey,
         procedure
         begin
           InterfaceDebloque;
@@ -215,7 +221,7 @@ begin
     // TODO : enregistrer l'information en attendant d'être sûr de l'avoir transférée (ou pour historique local)
     InterfaceBloque;
     try
-      API_CliSortDUnEtablissementASync(tconfig.id, IDEtb,
+      API_CliSortDUnEtablissementASync(tconfig.id, IDEtb, tconfig.PrivateKey,
         procedure
         begin
           InterfaceDebloque;
@@ -252,13 +258,16 @@ begin
             tconfig.PrivateKey := KPriv;
             tparams.save;
             InterfaceDebloque;
+            Label1.Text := tconfig.id.ToString;
           end;
         end);
     except
       InterfaceDebloque;
       raise;
     end;
-  end;
+  end
+  else
+    Label1.Text := tconfig.id.ToString;
 end;
 
 initialization

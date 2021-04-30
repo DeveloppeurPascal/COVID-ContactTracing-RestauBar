@@ -1,15 +1,32 @@
 # COVID-ContactTracing-RestauBar
+
 Logiciel de suivi et enregistrement des clients dans les établissements recevant du public.
 
 A la base ce projet était un POC. Il sera cependant mis en production. Vous avez les détails de la version publique et exploitable des logiciels clients et établissements sur le site [CCTRB](https://cctrb.fr) où vous trouverez les liens de téléchargement des programmes installables lorsqu'ils seront disponibles.
 
 -----
 
+## Serveur alternatif
+
 Les sources de la version PHP du serveur d'API utilisé par [CCTRB](https://cctrb.fr/) sont [disponibles sur ce dépôt](https://github.com/DeveloppeurPascal/CCTRB-PHP-API-Server).
 
 Les deux ont été séparés pour simplifier leur codage dans des arborescences ou machines virtuelles différentes selon la configuration de chaque développeur.
 
 -----
+
+## TODO LIST:
+
+### Logiciel CCTRB mobile
+
+* changer le chemin de stockage des paramètres pour s'assurer de leur effacement en même temps que l'application ou proposer une option pour les effacer (ou envoyer sur l'option de l'OS pour ça, sur Android)
+
+### Serveur
+
+### Logiciel Etablissement
+
+-----
+
+## Dépendances du projet
 
 Par habitude je stocke les dépôts de code utilisés dans une arborescence à part dont le premier niveau est le propriétaire du source et le second le nom du projet.
 

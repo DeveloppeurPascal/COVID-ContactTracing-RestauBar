@@ -96,7 +96,8 @@ procedure TWebModule1.WebModule1DeclarationCOVIDPositifAction(Sender: TObject;
   Request: TWebRequest; Response: TWebResponse; var Handled: Boolean);
 var
   idcli: integer;
-  // TODO : traiter checksum
+  kpriv: string;
+  Checksum: string;
   // http://localhost:8080/deccovidplus (GET avec c=idcli)
 begin
   // récupération et test de l'existence de l'ID du client
@@ -110,6 +111,20 @@ begin
   begin
     Response.StatusCode := 400;
     Response.Content := 'unknown cli';
+    exit;
+  end;
+  kpriv := DBConnexion.ExecSQLScalar
+    ('select ClePrivee from clients where IDClient=:id', [idcli]);
+  // Récupération et vérification du checksum V
+  try
+    Checksum := Request.ContentFields.Values['v'];
+  except
+    Checksum := '';
+  end;
+  if not ChecksumVerif.check(Checksum, kpriv, idcli.tostring) then
+  begin
+    Response.StatusCode := 500;
+    Response.Content := 'internal server error';
     exit;
   end;
   // traitement de la demande puisque tout est ok
@@ -147,7 +162,8 @@ procedure TWebModule1.WebModule1EntreeDansEtablissementAction(Sender: TObject;
   Request: TWebRequest; Response: TWebResponse; var Handled: Boolean);
 var
   idetb, idcli: integer;
-  // TODO : traiter checksum
+  kpriv: string;
+  Checksum: string;
   // http://localhost:8080/cliinetb (GET avec i=idetb, c=idcli)
 begin
   // récupération et test de l'existence de l'ID du client
@@ -163,6 +179,8 @@ begin
     Response.Content := 'unknown cli';
     exit;
   end;
+  kpriv := DBConnexion.ExecSQLScalar
+    ('select ClePrivee from clients where IDClient=:id', [idcli]);
   // récupération et test de l'existence de l'ID d'établissement
   try
     idetb := Request.QueryFields.Values['i'].ToInteger;
@@ -175,6 +193,19 @@ begin
   begin
     Response.StatusCode := 400;
     Response.Content := 'unknown etb';
+    exit;
+  end;
+  // Récupération et vérification du checksum V
+  try
+    Checksum := Request.ContentFields.Values['v'];
+  except
+    Checksum := '';
+  end;
+  if not ChecksumVerif.check(Checksum, kpriv, idcli.tostring, idetb.tostring)
+  then
+  begin
+    Response.StatusCode := 500;
+    Response.Content := 'internal server error';
     exit;
   end;
   // traitement de la demande puisque tout est ok
@@ -205,9 +236,21 @@ var
   jso: tjsonobject;
   idcli: integer;
   kpriv, kpub: string;
-  // TODO : traiter checksum
+  Checksum: string;
   // http://localhost:8080/cliadd (GET sans paramètre)
 begin
+  // Récupération et vérification du checksum
+  try
+    Checksum := Request.ContentFields.Values['v'];
+  except
+    Checksum := '';
+  end;
+  if not ChecksumVerif.check(Checksum, getCCTRBPrivateKey) then
+  begin
+    Response.StatusCode := 500;
+    Response.Content := 'internal server error';
+    exit;
+  end;
   // traitement de la demande puisque tout est ok
   try
     kpub := getKeyPrivPub;
@@ -279,7 +322,7 @@ begin
     Checksum := '';
   end;
   if not ChecksumVerif.check(Checksum, getCCTRBPrivateKey, raisonsociale,
-    idtypetablissement.ToString) then
+    idtypetablissement.tostring) then
   begin
     Response.StatusCode := 500;
     Response.Content := 'internal server error';
@@ -414,8 +457,8 @@ begin
   except
     Checksum := '';
   end;
-  if not ChecksumVerif.check(Checksum, getCCTRBPrivateKey, idetb.ToString,
-    raisonsociale, idtypetablissement.ToString) then
+  if not ChecksumVerif.check(Checksum, getCCTRBPrivateKey, idetb.tostring,
+    raisonsociale, idtypetablissement.tostring) then
   begin
     Response.StatusCode := 500;
     Response.Content := 'internal server error';
@@ -438,8 +481,8 @@ begin
   except
     Checksum := '';
   end;
-  if not ChecksumVerif.check(Checksum, kpriv, idetb.ToString, raisonsociale,
-    idtypetablissement.ToString) then
+  if not ChecksumVerif.check(Checksum, kpriv, idetb.tostring, raisonsociale,
+    idtypetablissement.tostring) then
   begin
     Response.StatusCode := 500;
     Response.Content := 'internal server error';
@@ -489,7 +532,8 @@ procedure TWebModule1.WebModule1SortieDEtablissementAction(Sender: TObject;
 var
   idetb, idcli: integer;
   dhe: string;
-  // TODO : traiter checksum
+  kpriv: string;
+  Checksum: string;
   // http://localhost:8080/clioutetb (GET avec i=idetb, c=idcli)
 begin
   // récupération et test de l'existence de l'ID du client
@@ -505,6 +549,8 @@ begin
     Response.Content := 'unknown cli';
     exit;
   end;
+  kpriv := DBConnexion.ExecSQLScalar
+    ('select ClePrivee from clients where IDClient=:id', [idcli]);
   // récupération et test de l'existence de l'ID d'établissement
   try
     idetb := Request.QueryFields.Values['i'].ToInteger;
@@ -517,6 +563,19 @@ begin
   begin
     Response.StatusCode := 400;
     Response.Content := 'unknown etb';
+    exit;
+  end;
+  // Récupération et vérification du checksum V
+  try
+    Checksum := Request.ContentFields.Values['v'];
+  except
+    Checksum := '';
+  end;
+  if not ChecksumVerif.check(Checksum, kpriv, idcli.tostring, idetb.tostring)
+  then
+  begin
+    Response.StatusCode := 500;
+    Response.Content := 'internal server error';
     exit;
   end;
   // récupération de l'heure d'entrée dans l'établissement
@@ -563,7 +622,8 @@ var
   idcli: integer;
   qry: tfdquery;
   jsa: tjsonarray;
-  // TODO : traiter checksum
+  kpriv: string;
+  Checksum: string;
   // http://localhost:8080/clicascontact (GET avec c=idcli)
 begin
   // récupération et test de l'existence de l'ID du client
@@ -577,6 +637,20 @@ begin
   begin
     Response.StatusCode := 400;
     Response.Content := 'unknown cli';
+    exit;
+  end;
+  kpriv := DBConnexion.ExecSQLScalar
+    ('select ClePrivee from clients where IDClient=:id', [idcli]);
+  // Récupération et vérification du checksum V
+  try
+    Checksum := Request.ContentFields.Values['v'];
+  except
+    Checksum := '';
+  end;
+  if not ChecksumVerif.check(Checksum, kpriv, idcli.tostring) then
+  begin
+    Response.StatusCode := 500;
+    Response.Content := 'internal server error';
     exit;
   end;
   // traitement de la demande puisque tout est ok
@@ -617,7 +691,8 @@ var
   idetb: integer;
   qry: tfdquery;
   jsa: tjsonarray;
-  // TODO : traiter checksum
+  Checksum: string;
+  kpriv: string;
   // http://localhost:8080/etbcascontact (GET avec i=idetb)
 begin
   // récupération et test de l'existence de l'ID d'établissement
@@ -632,6 +707,20 @@ begin
   begin
     Response.StatusCode := 400;
     Response.Content := 'unknown etb';
+    exit;
+  end;
+  kpriv := DBConnexion.ExecSQLScalar
+    ('select ClePrivee from etablissements where IDEtablissement=:id', [idetb]);
+  // Récupération et vérification du checksum V
+  try
+    Checksum := Request.ContentFields.Values['v'];
+  except
+    Checksum := '';
+  end;
+  if not ChecksumVerif.check(Checksum, kpriv, idetb.tostring) then
+  begin
+    Response.StatusCode := 500;
+    Response.Content := 'internal server error';
     exit;
   end;
   // traitement de la demande puisque tout est ok

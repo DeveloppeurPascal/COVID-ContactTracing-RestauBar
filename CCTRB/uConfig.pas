@@ -59,4 +59,5 @@ begin
   tParams.setValue(CKEYPublic, Value);
 end;
 
+// TODO : modifier le chemin de stockage des paramètres sur Android/iOS pour que ça dépende de l'arborescence de l'application et soit viré avec elle
 end.

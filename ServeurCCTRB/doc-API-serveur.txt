@@ -59,7 +59,7 @@ GET
 IN :
 	IDClient
 	IDEtablissement (provenant du QRCode)
-	V (calcul checksum avec cleprivee + IDClient + IDEtablissement)
+	V (calcul checksum avec cleprivee (client) + IDClient + IDEtablissement)
 OUT :
 	n/a
 
@@ -69,7 +69,7 @@ GET
 IN :
 	IDClient
 	IDEtablissement (provenant du QRCode)
-	V (calcul checksum avec cleprivee + IDClient + IDEtablissement)
+	V (calcul checksum avec cleprivee (client) + IDClient + IDEtablissement)
 OUT :
 	n/a
 code http 301 => pas d'entrée, en faire une avant de resoumettre la sortie.

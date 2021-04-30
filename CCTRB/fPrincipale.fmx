@@ -78,6 +78,12 @@ object frmPrincipale: TfrmPrincipale
         Text = 'A Propos'
         OnClick = btnInfosSurLeLogicielClick
       end
+      object Label1: TLabel
+        Position.X = 250.000000000000000000
+        Position.Y = 300.000000000000000000
+        Text = 'Label1'
+        TabOrder = 5
+      end
     end
   end
   object StyleBook1: TStyleBook
@@ -447,7 +453,7 @@ object frmPrincipale: TfrmPrincipale
   end
   object VerrouillageInterface: TRectangle
     Align = Contents
-    Opacity = 0.699999988079071100
+    Opacity = 0.699999988079071000
     Size.Width = 599.000000000000000000
     Size.Height = 515.000000000000000000
     Size.PlatformDefault = False

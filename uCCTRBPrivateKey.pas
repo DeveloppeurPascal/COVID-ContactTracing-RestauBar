@@ -11,6 +11,11 @@ implementation
 
 function getCCTRBPrivateKey: string;
 begin
+  // début tests d'API KO
+  // result := 'rien';
+  // exit;
+  // fin test
+
 {$IFDEF DEBUG}
 {$INCLUDE 'uCCTRBPrivateKey-debug.inc'}
 {$ELSE}
