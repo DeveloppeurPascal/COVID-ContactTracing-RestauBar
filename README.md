@@ -1,18 +1,29 @@
 # COVID-ContactTracing-RestauBar
 Logiciel de suivi et enregistrement des clients dans les établissements recevant du public.
 
-TODO :
-- faire la version PHP du serveur (pour le site https://cctrb.fr )
+A la base ce projet était un POC. Il sera cependant mis en production. Vous avez les détails de la version publique et exploitable des logiciels clients et établissements sur le site [CCTRB](https://cctrb.fr) où vous trouverez les liens de téléchargement des programmes installables lorsqu'ils seront disponibles.
 
-Dependance :
+-----
 
-https://github.com/DeveloppeurPascal/librairies stocké dans ../librairies
-=> des procédures et fonctions utilisées dans le projet (notamment uParam.pas)
+Les sources de la version PHP du serveur d'API utilisé par [CCTRB](https://cctrb.fr/) sont [disponibles sur ce dépôt](https://github.com/DeveloppeurPascal/CCTRB-PHP-API-Server).
 
-https://github.com/foxitsoftware/DelphiZXingQRCode stockée dans ../../foxitsoftware/DelphiZXingQRCode
+Les deux ont été séparés pour simplifier leur codage dans des arborescences ou machines virtuelles différentes selon la configuration de chaque développeur.
+
+-----
+
+Par habitude je stocke les dépôts de code utilisés dans une arborescence à part dont le premier niveau est le propriétaire du source et le second le nom du projet.
+
+Par exemple, celui-ci se trouve dans /DeveloppeurPascal/COVID-ContactTracing-RestauBar
+
+La version Delphi de CCRTB dépend des dépôts de code suivants :
+
+https://github.com/DeveloppeurPascal/librairies stocké dans ../librairies par rapport au dossier de ce dépôt.
+=> des procédures et fonctions utilisées dans le projet (notamment pour le stockage des configurations et le calcul de checksum)
+
+https://github.com/foxitsoftware/DelphiZXingQRCode stockée dans ../../foxitsoftware/DelphiZXingQRCode par rapport au dossier de ce dépôt.
 => pour la création des QR Code dans le programme destiné aux établissements
 
-https://github.com/Spelt/ZXing.Delphi stockée dans ../../Spelt/ZXing
+https://github.com/Spelt/ZXing.Delphi stockée dans ../../Spelt/ZXing par rapport au dossier de ce dépôt.
 => pour le scan des images de la caméra et l'interprétation des QR codes
 
 Plus d'informations sur https://developpeur-pascal.fr/p/_300f-cctrb--covid-contact-tracing-restau-bar.html
