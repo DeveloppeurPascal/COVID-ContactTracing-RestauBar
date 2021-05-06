@@ -20,12 +20,14 @@ Les deux ont été séparés pour simplifier leur codage dans des arborescences 
 
 * changer le chemin de stockage des paramètres pour s'assurer de leur effacement en même temps que l'application ou proposer une option pour les effacer (ou envoyer sur l'option de l'OS pour ça, sur Android)
 * adapter la lecture du QR Code à son nouveau format
+* vérifier format Date/Heure des écrans cas contact (AAAAMMJJHHMMSS ou JJ/MM/AAAA HH:MM:SS)
 
 ### Serveur
 
 ### Logiciel Etablissement
 
 * changer la génération du QR Code pour y ajouter une part d'aléatoire et de clé privée
+* vérifier format Date/Heure des écrans cas contact (AAAAMMJJHHMMSS ou JJ/MM/AAAA HH:MM:SS)
 
 -----
 

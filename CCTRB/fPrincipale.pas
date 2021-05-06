@@ -247,7 +247,7 @@ begin
         begin
           if (id < 1) then
           begin
-            showmessage('Probleme d''accès au serveur ' + getAPIURL +
+            showmessage('Probleme d''accès au serveur ' + getAPIURL('') +
               ', merci de retenter dans quelques secondes.');
             ReferenceLAppareil;
           end

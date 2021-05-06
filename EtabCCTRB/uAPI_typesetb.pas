@@ -46,7 +46,7 @@ begin
   serveur := thttpclient.Create;
   try
     try
-      reponse := serveur.get(getAPIURL + 'types');
+      reponse := serveur.get(getAPIURL('types'));
       if (reponse.StatusCode = 200) then
       begin
         try

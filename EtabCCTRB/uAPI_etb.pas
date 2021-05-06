@@ -75,10 +75,12 @@ begin
     try
       params.AddPair('l', RaisonSociale);
       params.AddPair('t', IDTypeEtablissement.tostring);
+      var cc:=ChecksumVerif.get(getCCTRBPrivateKey, RaisonSociale,
+        IDTypeEtablissement.tostring);
       params.AddPair('v', ChecksumVerif.get(getCCTRBPrivateKey, RaisonSociale,
         IDTypeEtablissement.tostring));
       try
-        reponse := serveur.post(getAPIURL + 'etbadd', params);
+        reponse := serveur.post(getAPIURL('etbadd'), params);
         if (reponse.StatusCode = 200) then
           try
             try
@@ -172,7 +174,7 @@ begin
       params.AddPair('v2', ChecksumVerif.get(KPriv, IDEtablissement.tostring,
         RaisonSociale, IDTypeEtablissement.tostring));
       try
-        reponse := serveur.post(getAPIURL + 'etbchg', params);
+        reponse := serveur.post(getAPIURL('etbchg'), params);
         // TODO : gérer code retour (notamment 404 ou 500)
       except
 
@@ -232,7 +234,7 @@ begin
   serveur := thttpclient.Create;
   try
     try
-      reponse := serveur.get(getAPIURL + 'etbcascontact?i=' +
+      reponse := serveur.get(getAPIURL ( 'etbcascontact')+'?i=' +
         IDEtablissement.tostring + '&v=' + ChecksumVerif.get(KPriv,
         IDEtablissement.tostring));
       if (reponse.StatusCode = 200) then
