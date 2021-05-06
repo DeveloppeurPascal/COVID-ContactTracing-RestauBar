@@ -94,7 +94,7 @@ begin
   serveur := thttpclient.Create;
   try
     try
-      reponse := serveur.get(getAPIURL ( 'cliadd')+'?v=' +
+      reponse := serveur.get(getAPIURL('cliadd') + '?v=' +
         ChecksumVerif.get(getCCTRBPrivateKey));
       if (reponse.StatusCode = 200) then
         try
@@ -182,8 +182,9 @@ begin
   serveur := thttpclient.Create;
   try
     try
-      reponse := serveur.get(getAPIURL ( 'clicascontact')+'?c=' + IDClient.tostring
-        + '&v=' + ChecksumVerif.get(KPriv, IDClient.tostring));
+      reponse := serveur.get(getAPIURL('clicascontact') + '?c=' +
+        IDClient.tostring + '&v=' + ChecksumVerif.get(KPriv,
+        IDClient.tostring));
       if (reponse.StatusCode = 200) then
       begin
         try
@@ -266,8 +267,8 @@ begin
   serveur := thttpclient.Create;
   try
     try
-      serveur.get(getAPIURL ( 'deccovidplus')+'?c=' + IDClient.tostring + '&v=' +
-        ChecksumVerif.get(KPriv, IDClient.tostring));
+      serveur.get(getAPIURL('deccovidplus') + '?c=' + IDClient.tostring + '&v='
+        + ChecksumVerif.get(KPriv, IDClient.tostring));
       // TODO : gérer réponse (code de retour et éventuellement erreur si <> 200)
     except
 
@@ -314,7 +315,7 @@ begin
   serveur := thttpclient.Create;
   try
     try
-      serveur.get(getAPIURL ( 'cliinetb')+'?c=' + IDClient.tostring + '&i=' +
+      serveur.get(getAPIURL('cliinetb') + '?c=' + IDClient.tostring + '&i=' +
         IDEtablissement.tostring + '&v=' + ChecksumVerif.get(KPriv,
         IDClient.tostring, IDEtablissement.tostring));
       // TODO : gérer réponse (code de retour et éventuellement erreur si <> 200)
@@ -363,7 +364,7 @@ begin
   serveur := thttpclient.Create;
   try
     try
-      serveur.get(getAPIURL ( 'clioutetb')+'?c=' + IDClient.tostring + '&i=' +
+      serveur.get(getAPIURL('clioutetb') + '?c=' + IDClient.tostring + '&i=' +
         IDEtablissement.tostring + '&v=' + ChecksumVerif.get(KPriv,
         IDClient.tostring, IDEtablissement.tostring));
       // TODO : gérer réponse (code de retour et éventuellement erreur si <> 200)

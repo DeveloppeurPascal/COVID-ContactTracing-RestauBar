@@ -24,6 +24,8 @@ Les deux ont été séparés pour simplifier leur codage dans des arborescences 
 
 ### Serveur
 
+* impacter les "cas contact" sur la base de données d'historiques lors de l'API deccovidplus
+
 ### Logiciel Etablissement
 
 * changer la génération du QR Code pour y ajouter une part d'aléatoire et de clé privée
