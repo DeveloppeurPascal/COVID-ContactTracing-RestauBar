@@ -55,8 +55,8 @@ OUT :
 http://localhost:8080/cliinetb
 GET
 IN :
-	IDClient
-	IDEtablissement (provenant du QRCode)
+	c => IDClient
+	i => IDEtablissement (provenant du QRCode)
 	v (calcul checksum avec cleprivee (client) + IDClient + IDEtablissement)
 OUT :
 	n/a
@@ -65,8 +65,8 @@ OUT :
 http://localhost:8080/clioutetb
 GET
 IN :
-	IDClient
-	IDEtablissement (provenant du QRCode)
+	c => IDClient
+	i => IDEtablissement (provenant du QRCode)
 	v (calcul checksum avec cleprivee (client) + IDClient + IDEtablissement)
 OUT :
 	n/a
@@ -76,7 +76,7 @@ code http 301 => pas d'entrée, en faire une avant de resoumettre la sortie.
 http://localhost:8080/deccovidplus
 GET
 IN :
-	IDClient
+	c => IDClient
 	v (calcul checksum avec cleprivee + IDClient)
 OUT :
 	n/a
@@ -85,7 +85,7 @@ OUT :
 http://localhost:8080/clicascontact
 GET
 IN :
-	IDClient
+	c => IDClient
 	v (calcul checksum avec cleprivee + IDClient)
 OUT :
 	JSON tableau d'objets (StartDate, EndDate)
