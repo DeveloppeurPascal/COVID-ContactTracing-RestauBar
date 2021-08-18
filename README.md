@@ -30,6 +30,7 @@ Les deux ont été séparés pour simplifier leur codage dans des arborescences 
 
 * changer la génération du QR Code pour y ajouter une part d'aléatoire et de clé privée
 * vérifier format Date/Heure des écrans cas contact (AAAAMMJJHHMMSS ou JJ/MM/AAAA HH:MM:SS)
+* s'assurer que le Bitmap du QRCode est dessiné avec la bonne résolution (vérifier son TBitmap.BitmapScale lors des dessins selon la résolution de l'écran et la profondeur des pixels)
 
 -----
 
