@@ -20,7 +20,7 @@ type
 implementation
 
 uses
-  uparam;
+  Olf.RTL.Params;
 
 const
   CKEYID = 'CliID';

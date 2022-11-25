@@ -50,7 +50,7 @@ implementation
 {$R *.fmx}
 
 uses uConfig, UAPI_cli, FMX.DialogService, fAPropos, fLectureQRcode,
-  fTestCasContact, uAPI, uRoutines, uParam;
+  fTestCasContact, uAPI, uRoutines, Olf.RTL.Params;
 
 procedure TfrmPrincipale.btnDeclarerPositiviteClick(Sender: TObject);
 begin

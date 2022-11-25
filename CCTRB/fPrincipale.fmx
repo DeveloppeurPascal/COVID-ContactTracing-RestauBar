@@ -453,7 +453,7 @@ object frmPrincipale: TfrmPrincipale
   end
   object VerrouillageInterface: TRectangle
     Align = Contents
-    Opacity = 0.699999988079071000
+    Opacity = 0.699999988079071100
     Size.Width = 599.000000000000000000
     Size.Height = 515.000000000000000000
     Size.PlatformDefault = False
