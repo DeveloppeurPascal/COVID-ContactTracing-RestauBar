@@ -12,9 +12,9 @@ uses
   WebModuleUnit1 in 'WebModuleUnit1.pas' {WebModule1: TWebModule},
   ServerConst1 in 'ServerConst1.pas',
   uTools in 'uTools.pas',
-  uChecksumVerif in '..\..\Librairies\uChecksumVerif.pas',
   uCCTRBPrivateKey in '..\uCCTRBPrivateKey.pas',
-  u_md5 in '..\..\Librairies\u_md5.pas';
+  u_md5 in '..\lib-externes\librairies\u_md5.pas',
+  uChecksumVerif in '..\lib-externes\librairies\uChecksumVerif.pas';
 
 {$R *.res}
 
