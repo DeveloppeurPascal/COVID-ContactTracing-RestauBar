@@ -36,19 +36,17 @@ Les deux ont été séparés pour simplifier leur codage dans des arborescences 
 
 ## Dépendances du projet
 
-Par habitude je stocke les dépôts de code utilisés dans une arborescence à part dont le premier niveau est le propriétaire du source et le second le nom du projet.
+Ce projet a des dépendences déclarées comme sous-modules. Cela permet de les télécharger automatiquement si vous rapatriez le projet avec git en mode récursif.
 
-Par exemple, celui-ci se trouve dans /DeveloppeurPascal/COVID-ContactTracing-RestauBar
+Si vous téléchargez les sources sous forme de ZIP il vous faudra ajouter le contenu de ces dépendances directement dans leur sous-dossier ou adapter les programmes avant de les compiler.
 
-La version Delphi de CCRTB dépend des dépôts de code suivants :
-
-https://github.com/DeveloppeurPascal/librairies stocké dans ../librairies par rapport au dossier de ce dépôt.
+https://github.com/DeveloppeurPascal/librairies stocké dans lib-externes/librairies
 => des procédures et fonctions utilisées dans le projet (notamment pour le stockage des configurations et le calcul de checksum)
 
-https://github.com/foxitsoftware/DelphiZXingQRCode stockée dans ../../foxitsoftware/DelphiZXingQRCode par rapport au dossier de ce dépôt.
+https://github.com/foxitsoftware/DelphiZXingQRCode stocké dans lib-externes/DelphiZXingQRCode 
 => pour la création des QR Code dans le programme destiné aux établissements
 
-https://github.com/Spelt/ZXing.Delphi stockée dans ../../Spelt/ZXing par rapport au dossier de ce dépôt.
+https://github.com/Spelt/ZXing.Delphi stockée dans lib-externes/ZXing.Delphi
 => pour le scan des images de la caméra et l'interprétation des QR codes
 
 Plus d'informations sur https://developpeur-pascal.fr/p/_300f-cctrb--covid-contact-tracing-restau-bar.html
