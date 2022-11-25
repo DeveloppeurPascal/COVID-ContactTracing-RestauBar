@@ -27,7 +27,7 @@ procedure API_ListeTypeEtablissementsAsync
 implementation
 
 uses
-  system.net.HttpClient, uAPI, system.json, system.Threading, system.Classes;
+  system.net.HttpClient, uAPI, system.json, system.Threading, system.Classes, system.SysUtils;
 
 function API_ListeTypeEtablissements: TFDMemtable;
 var

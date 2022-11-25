@@ -54,8 +54,8 @@ implementation
 
 {$R *.fmx}
 
-uses uConfig, uParam, uAPI_etb, System.Threading, fVisualiser, fModifier,
-  fTestCasContact, fGenerationQRCode;
+uses uConfig,  uAPI_etb, System.Threading, fVisualiser, fModifier,
+  fTestCasContact, fGenerationQRCode, Olf.RTL.Params;
 
 procedure TfrmPrincipale.afficheEcranInitialisation;
 begin

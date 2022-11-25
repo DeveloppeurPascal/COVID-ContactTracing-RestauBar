@@ -30,7 +30,7 @@ type
 
 implementation
 
-uses uParam;
+uses olf.RTL.Params;
 
 const
   CKEYID = 'EtbID';

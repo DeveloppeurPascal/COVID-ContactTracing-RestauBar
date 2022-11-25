@@ -37,7 +37,7 @@ implementation
 
 {$R *.fmx}
 
-uses uConfig, uParam, uAPI_etb, uDM, System.Threading;
+uses uConfig, uAPI_etb, uDM, System.Threading, Olf.RTL.Params;
 
 procedure TfrmModifier.btnAnnuleCreationClick(Sender: TObject);
 begin
