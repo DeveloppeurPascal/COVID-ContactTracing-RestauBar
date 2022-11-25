@@ -4,3 +4,6 @@
 [submodule "lib-externes/ZXing.Delphi"]
 	path = lib-externes/ZXing.Delphi
 	url = https://github.com/Spelt/ZXing.Delphi.git
+[submodule "lib-externes/DelphiZXingQRCode"]
+	path = lib-externes/DelphiZXingQRCode
+	url = https://github.com/foxitsoftware/DelphiZXingQRCode.git
